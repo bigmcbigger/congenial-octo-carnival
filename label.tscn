@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bf5n42b0kqu85"]
+
+[node name="Label" type="Label"]
+offset_left = 100.0
+offset_top = 32.0
+offset_right = 162.0
+offset_bottom = 55.0
+text = "Hades 2"
