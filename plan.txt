@@ -1,0 +1,28 @@
+- UI?
+  - start game
+  - victory/defeat screen
+- level
+  - rudimentary art
+  - colliders to prevent movement
+  - traps
+- enemies
+  - health bars
+  - ezpz
+  - melee variant
+  - range variatn
+- boss
+  - health bars
+  - special attack patterns
+  - win condition (Boss dead)
+- player
+  - dash
+  - wasd controls
+  - melee combat
+   - left clik (fast atk)
+    - right click (big atk cc self)
+  - health bar, take dmg from enemies
+  
+overflow:
+- powerups
+- replay rogiuelike features
+- more levles
