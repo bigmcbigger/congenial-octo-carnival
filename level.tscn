@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://c80mevgcvsx5a"]
+
+[ext_resource type="PackedScene" uid="uid://dlk3xaltwkerk" path="res://character.tscn" id="1_4n8m7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffnk2"]
+albedo_color = Color(0.219608, 0.133333, 0.0313726, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bvs5u"]
+
+[node name="Level" type="Node3D"]
+
+[node name="Character" parent="." instance=ExtResource("1_4n8m7")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.721422, 0.692496, 0, -0.692496, 0.721422, 0, 14.37, -0.367739)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ffnk2")
+mesh = SubResource("PlaneMesh_bvs5u")
