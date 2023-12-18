@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://dh5u5bveoeeal"]
+
+[ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://concrete_tiled.png" id="1_2uahv"]
+[ext_resource type="PackedScene" uid="uid://c5midv1x3bvtv" path="res://environment/rock_1.tscn" id="3_5cf1u"]
+[ext_resource type="PackedScene" uid="uid://bailc0o1engnt" path="res://environment/rock_column.tscn" id="4_8egxs"]
+[ext_resource type="PackedScene" uid="uid://b15jfvtyhx17j" path="res://testplayer.tscn" id="4_hhx7l"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5dw7m"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ae87h"]
+albedo_texture = ExtResource("1_2uahv")
+uv1_scale = Vector3(43.665, 43.665, 43.665)
+texture_filter = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_nlrnq"]
+size = Vector3(60, 2, 60)
+
+[node name="root" type="Node"]
+
+[node name="ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.152072, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ground"]
+shape = SubResource("BoxShape3D_5dw7m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ground"]
+material_override = SubResource("StandardMaterial3D_ae87h")
+mesh = SubResource("BoxMesh_nlrnq")
+
+[node name="Rock1" parent="." instance=ExtResource("3_5cf1u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.80905, 1.37562, 2.63197)
+
+[node name="RockColumn" parent="." instance=ExtResource("4_8egxs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.50469, 8.25683, 0)
+
+[node name="Testplayer" parent="." instance=ExtResource("4_hhx7l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39634, 0)

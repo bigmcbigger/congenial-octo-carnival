@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://b15jfvtyhx17j"]
+
+[ext_resource type="Script" path="res://testplayer.gd" id="1_lpemf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3c8fm"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6vta1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kfx1u"]
+albedo_texture = SubResource("CompressedTexture2D_6vta1")
+
+[sub_resource type="Curve" id="Curve_hns2e"]
+_data = [Vector2(0.131868, 0.0659341), 0.0, 0.0, 0, 0, Vector2(0.258242, 0.0879121), 0.0, 0.0, 0, 0, Vector2(0.302198, 0.362637), 0.0, 0.0, 0, 0, Vector2(0.395604, 0.0879121), 0.0, 0.0, 0, 0, Vector2(0.725275, 0.043956), -0.166666, 0.176471, 0, 0, Vector2(0.994506, 0.010989), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_vpcn3"]
+radius = 1.491
+radial_steps = 5
+sections = 4
+section_length = 1.0
+section_rings = 5
+curve = SubResource("Curve_hns2e")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qhw0k"]
+radius = 0.186395
+
+[node name="Testplayer" type="CharacterBody3D"]
+script = ExtResource("1_lpemf")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42673, 0)
+text = "Hades"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.536608, 0.843832, 0, -0.843832, 0.536608, 0, 4.14965, 2.8279)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.32, 0, 0, 0, 0.32, 0, 0, 0, 0.32, 0, -0.070024, 0)
+mesh = SubResource("CapsuleMesh_3c8fm")
+
+[node name="lance" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.245, 0, 0, 0, -0.0845981, -0.229931, 0, 0.229931, -0.0845981, 0.252822, 0.0159867, -0.250156)
+material_override = SubResource("StandardMaterial3D_kfx1u")
+mesh = SubResource("TubeTrailMesh_vpcn3")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.768127, -0.0387335)
+light_color = Color(0.588235, 0.321569, 0.137255, 1)
+light_energy = 7.465
+shadow_enabled = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227782, 0)
+shape = SubResource("SphereShape3D_qhw0k")

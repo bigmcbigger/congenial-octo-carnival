@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bijrluamfmoij"]
+
+[ext_resource type="Texture2D" uid="uid://dntv2t56ljcu8" path="res://magma_greyscale.png" id="1_h4vlx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gdvsa"]
+albedo_texture = ExtResource("1_h4vlx")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vxaws"]
+size = Vector2(10, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8kioa"]
+size = Vector3(10, 1, 10)
+
+[node name="Magma" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_gdvsa")
+mesh = SubResource("QuadMesh_vxaws")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_8kioa")
