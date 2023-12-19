@@ -47,7 +47,7 @@ material = SubResource("StandardMaterial3D_lsf5x")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.415551, 0.90957, 0, -0.90957, 0.415551, 0, 28.5228, 0)
-light_color = Color(1, 0.627451, 0.501961, 1)
+light_color = Color(0.47451, 0.141176, 0, 1)
 light_energy = 0.446
 light_indirect_energy = 1.158
 light_angular_distance = 23.17
