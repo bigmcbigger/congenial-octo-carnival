@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bijrluamfmoij"]
+[gd_scene load_steps=5 format=3 uid="uid://bijrluamfmoij"]
 
 [ext_resource type="Shader" path="res://environment/magma.gdshader" id="1_qw4lv"]
 [ext_resource type="Texture2D" uid="uid://dxeclwnpiild6" path="res://magma_tiled.png" id="2_lage2"]
@@ -14,15 +14,8 @@ size = Vector2(100, 500)
 subdivide_width = 100
 subdivide_depth = 500
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_8kioa"]
-size = Vector3(100, 1, 500)
-
-[node name="Magma" type="StaticBody3D"]
+[node name="Magma" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_dimgx")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.669909, 0)
-shape = SubResource("BoxShape3D_8kioa")

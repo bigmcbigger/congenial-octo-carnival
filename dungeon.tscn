@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ci5buopmxr8wd"]
 
+[ext_resource type="PackedScene" uid="uid://dflnitqavpjn3" path="res://character.tscn" id="1_3vaen"]
 [ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://concrete_tiled.png" id="1_esayu"]
-[ext_resource type="PackedScene" uid="uid://b15jfvtyhx17j" path="res://testplayer.tscn" id="3_7qcgh"]
 [ext_resource type="PackedScene" uid="uid://bijrluamfmoij" path="res://environment/magma.tscn" id="5_b45qx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lsf5x"]
@@ -10,11 +10,11 @@ uv1_scale = Vector3(14.43, 14.43, 14.43)
 
 [node name="Dungeon" type="Node3D"]
 
+[node name="Character" parent="." instance=ExtResource("1_3vaen")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.72, -0.00355053, 233.415)
+
 [node name="Magma" parent="." instance=ExtResource("5_b45qx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.352, 0)
-
-[node name="Testplayer" parent="." instance=ExtResource("3_7qcgh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.3369, 0, 229.555)
 
 [node name="island_2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -46.9425)
@@ -44,3 +44,10 @@ polygon = PackedVector2Array(-0.192713, -0.341776, -2.62819, -0.880939, -4.87395
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.5, 0)
 polygon = PackedVector2Array(-0.192713, -0.341776, -2.62819, -0.880939, -4.87395, -0.828619, -8.52633, -0.692082, -10.2775, -0.0566473, -11.8224, 2.12065, -12.0434, 4.1059, -11.7568, 6.25735, -10.0414, 7.48658, -8.3782, 6.67413, -5.86516, 7.34166, -2.51423, 8.12744, -0.982465, 11.5579, -0.99069, 16.3886, -3.84354, 17.4888, -8.51561, 18.6008, -12.4579, 20.4155, -15.1149, 19.345, -15.6996, 24.7068, -14.2759, 30.6065, -12.4169, 32.5069, -10.5976, 31.1246, -5.97394, 32.2719, -2.0882, 30.3643, 5.76426, 26.6573, 7.9999, 21.6995, 13.0455, 19.7482, 21.7063, 24.8783, 30.4954, 26.1925, 32.5466, 20.6411, 28.3335, 9.55315, 30.117, 4.12371, 32.5184, 1.10417, 34.3206, -4.65022, 28.5318, -7.75087, 21.133, -9.67891, 14.8168, -10.5019, 12.0927, -8.00983, 10.2917, -3.36441, 10.7549, 2.77832)
 material = SubResource("StandardMaterial3D_lsf5x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.415551, 0.90957, 0, -0.90957, 0.415551, 0, 28.5228, 0)
+light_color = Color(1, 0.627451, 0.501961, 1)
+light_energy = 0.446
+light_indirect_energy = 1.158
+light_angular_distance = 23.17
