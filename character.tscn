@@ -8,6 +8,33 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_irxb8"]
 
+[sub_resource type="Animation" id="Animation_m6ss0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/SwordPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.51378, -0.316498, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/SwordPivot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.457737, -0.0102571, -0.484797)]
+}
+
 [sub_resource type="Animation" id="Animation_qgmq4"]
 resource_name = "sword_swing"
 length = 0.5
@@ -36,33 +63,6 @@ tracks/1/keys = {
 "values": [Vector3(0.457737, -0.0102571, -0.484797), Vector3(-0.10585, -0.0102571, -0.484797), Vector3(0.457737, -0.0102571, -0.484797)]
 }
 
-[sub_resource type="Animation" id="Animation_m6ss0"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/SwordPivot:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-1.51378, -0.316498, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Pivot/SwordPivot:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.457737, -0.0102571, -0.484797)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ar37n"]
 _data = {
 "RESET": SubResource("Animation_m6ss0"),
@@ -70,6 +70,33 @@ _data = {
 }
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_62y8e"]
+
+[sub_resource type="Animation" id="Animation_mhcrc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -0.347374)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.979525, 0.336832, 0.989769)]
+}
 
 [sub_resource type="Animation" id="Animation_botnm"]
 resource_name = "hitbox"
@@ -99,33 +126,6 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0), Vector3(0.979525, 0.336832, 0.989769), Vector3(0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_mhcrc"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, -0.347374)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.979525, 0.336832, 0.989769)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_c0ht7"]
 _data = {
 "RESET": SubResource("Animation_mhcrc"),
@@ -145,7 +145,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42673, 0)
 text = "Hades"
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.536608, 0.843832, 0, -0.843832, 0.536608, 0, 1.14631, 0.684585)
+transform = Transform3D(1, 0, 0, 0, 0.536608, 0.843832, 0, -0.843832, 0.536608, 0.00811815, 1.55508, 1.35693)
+current = true
+fov = 110.174
 
 [node name="Pivot" type="Node3D" parent="."]
 script = ExtResource("2_og4p0")
@@ -154,7 +156,7 @@ script = ExtResource("2_og4p0")
 transform = Transform3D(0.284632, 0, 0, 0, 0.284632, 0, 0, 0, 0.284632, 0, 0, 0)
 
 [node name="SwordPivot" type="Node3D" parent="Pivot"]
-transform = Transform3D(0.0950331, 0.310735, -0.00177372, 0, 0.0569888, 0.0998375, 0.031124, -0.948787, 0.00541582, 0.457737, -0.0102571, -0.484797)
+transform = Transform3D(0.0950331, 0.310735, -0.00177362, 0, 0.0569854, 0.0998375, 0.031124, -0.948787, 0.0054155, 0.457737, -0.0102571, -0.484797)
 
 [node name="SwordMesh" type="MeshInstance3D" parent="Pivot/SwordPivot"]
 transform = Transform3D(0.999999, -7.15256e-07, 1.11759e-08, 7.45058e-09, 1, 4.65661e-10, 3.72529e-09, 1.78814e-07, 1, 0, 0, 0)
@@ -179,5 +181,13 @@ shape = SubResource("CylinderShape3D_62y8e")
 libraries = {
 "": SubResource("AnimationLibrary_c0ht7")
 }
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+modulate = Color(0, 0.752941, 0, 1)
+offset_right = 176.0
+offset_bottom = 27.0
+scale = Vector2(1.59794, 1.64155)
+value = 100.0
+fill_mode = 1
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

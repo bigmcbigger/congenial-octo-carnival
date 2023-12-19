@@ -5,6 +5,7 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const FALL_ACCELERATION = 75
 const DASH_ACCELERATION = 40
+const HEALTH = 100
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -21,6 +22,8 @@ func _process(delta):
 var target_velocity = Vector3.ZERO
 
 func _physics_process(delta):
+	update_health()
+	
 	# We create a local variable to store the input direction.
 	var direction = Vector3.ZERO
 
@@ -87,6 +90,9 @@ func _physics_process(delta):
 #
 	#move_and_slide()
 
+func update_health():
+	var player_health = $HealthBar
+	player_health.value = HEALTH
 
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("enemy"):
