@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c80mevgcvsx5a"]
 
 [ext_resource type="PackedScene" uid="uid://dflnitqavpjn3" path="res://character.tscn" id="1_4n8m7"]
-[ext_resource type="PackedScene" uid="uid://goy7m2cyer5c" path="res://enemy.tscn" id="2_m2548"]
+[ext_resource type="PackedScene" uid="uid://c8f7uvnt4plfe" path="res://enemies/normie_01.tscn" id="2_c3k51"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nuedh"]
 size = Vector3(10, 1, 10)
@@ -15,6 +15,7 @@ size = Vector3(10, 1, 10)
 [node name="Level" type="Node3D"]
 
 [node name="Character" parent="." instance=ExtResource("1_4n8m7")]
+collision_mask = 2
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.465793, -0.539968, 0.70105, 0.817776, 0.0399853, 0.574146, -0.338052, 0.840735, 0.422948, 0, 11.5849, 0)
@@ -22,6 +23,8 @@ shadow_enabled = true
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0124102, -1.00345, -0.0560274)
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("BoxShape3D_nuedh")
@@ -31,5 +34,5 @@ material_override = SubResource("StandardMaterial3D_ffnk2")
 mesh = SubResource("BoxMesh_h527p")
 skeleton = NodePath("../..")
 
-[node name="Enemy" parent="." instance=ExtResource("2_m2548")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.300909, -4)
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_c3k51")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.09803)
