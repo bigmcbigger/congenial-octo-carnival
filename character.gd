@@ -11,13 +11,12 @@ const HEALTH = 100
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var dash_state = false
 
-@onready var animation = $AnimationPlayer
-@onready var hitbox_animation = $Hitbox/HitboxCollission/AnimationPlayer
+@onready var animation_basic_attack = $Pivot/BasicAttack/AnimationPlayer
+#@onready var hitbox_animation = $Hitbox/HitboxCollission/AnimationPlayer
 
 func _process(delta):
 	if Input.is_action_just_pressed("attack"):
-		animation.play("sword_swing")
-		hitbox_animation.play("hitbox")
+		animation_basic_attack.play("basic_attack")
 
 var target_velocity = Vector3.ZERO
 
@@ -67,7 +66,3 @@ func _physics_process(delta):
 func update_health():
 	var player_health = $HealthBar
 	player_health.value = HEALTH
-
-func _on_hitbox_area_entered(area):
-	if area.is_in_group("enemies"):
-		print("halo")
