@@ -89,4 +89,7 @@ mesh = SubResource("SphereMesh_vbmv3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0308838, 0.235413, 0)
 shape = SubResource("BoxShape3D_yc2oi")
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+[node name="navigation_point" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.60329, 0)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="navigation_point"]

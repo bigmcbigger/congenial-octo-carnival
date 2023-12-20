@@ -18,7 +18,7 @@ size = Vector2(100, 500)
 
 [node name="Dungeon" type="Node3D"]
 
-[node name="Character" parent="." instance=ExtResource("1_3vaen")]
+[node name="Player" parent="." instance=ExtResource("1_3vaen")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.72, -0.00355053, 233.415)
 
 [node name="Magma" parent="." instance=ExtResource("5_b45qx")]
@@ -68,4 +68,5 @@ navigation_mesh = SubResource("NavigationMesh_ghajr")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.606014, 0)
+visible = false
 mesh = SubResource("PlaneMesh_b61bq")

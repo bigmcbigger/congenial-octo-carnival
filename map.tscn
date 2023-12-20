@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dh5u5bveoeeal"]
 
-[ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://concrete_tiled.png" id="1_2uahv"]
+[ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://art/concrete_tiled.png" id="1_2uahv"]
 [ext_resource type="PackedScene" uid="uid://c5midv1x3bvtv" path="res://environment/rock_1.tscn" id="3_5cf1u"]
 [ext_resource type="PackedScene" uid="uid://bailc0o1engnt" path="res://environment/rock_column.tscn" id="4_8egxs"]
 [ext_resource type="PackedScene" uid="uid://b15jfvtyhx17j" path="res://testplayer.tscn" id="4_hhx7l"]
