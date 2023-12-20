@@ -1,12 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://ci5buopmxr8wd"]
+[gd_scene load_steps=8 format=3 uid="uid://ci5buopmxr8wd"]
 
 [ext_resource type="PackedScene" uid="uid://dflnitqavpjn3" path="res://character.tscn" id="1_3vaen"]
-[ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://concrete_tiled.png" id="1_esayu"]
+[ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://art/concrete_tiled.png" id="1_esayu"]
+[ext_resource type="PackedScene" uid="uid://bxjvlodthlg4o" path="res://archer.tscn" id="4_dewp4"]
 [ext_resource type="PackedScene" uid="uid://bijrluamfmoij" path="res://environment/magma.tscn" id="5_b45qx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lsf5x"]
 albedo_texture = ExtResource("1_esayu")
 uv1_scale = Vector3(14.43, 14.43, 14.43)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_ghajr"]
+vertices = PackedVector3Array(-49.5, -0.106014, -249.5, -49.5, -0.106014, 249.5, 49.5, -0.106014, 249.5, 49.5, -0.106014, -249.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b61bq"]
+size = Vector2(100, 500)
 
 [node name="Dungeon" type="Node3D"]
 
@@ -46,8 +54,18 @@ polygon = PackedVector2Array(-0.192713, -0.341776, -2.62819, -0.880939, -4.87395
 material = SubResource("StandardMaterial3D_lsf5x")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.415551, 0.90957, 0, -0.90957, 0.415551, 0, 28.5228, 0)
+transform = Transform3D(1, 0, 0, 0, 0.415551, 0.90957, 0, -0.90957, 0.415551, 0.510771, 30.2464, -4.90451)
 light_color = Color(0.47451, 0.141176, 0, 1)
 light_energy = 0.446
 light_indirect_energy = 1.158
 light_angular_distance = 23.17
+
+[node name="Archer" parent="." instance=ExtResource("4_dewp4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.624448, 199.031)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_ghajr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.606014, 0)
+mesh = SubResource("PlaneMesh_b61bq")

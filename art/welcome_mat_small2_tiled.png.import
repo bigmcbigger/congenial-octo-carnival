@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxeclwnpiild6"
-path.s3tc="res://.godot/imported/magma_tiled.png-04fe9df410ceaedcd006214ae4435f78.s3tc.ctex"
+uid="uid://c6rlap7s4oegx"
+path.s3tc="res://.godot/imported/welcome_mat_small2_tiled.png-8c6d81882c3264c9fad2788e2d371c6a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://magma_tiled.png"
-dest_files=["res://.godot/imported/magma_tiled.png-04fe9df410ceaedcd006214ae4435f78.s3tc.ctex"]
+source_file="res://art/welcome_mat_small2_tiled.png"
+dest_files=["res://.godot/imported/welcome_mat_small2_tiled.png-8c6d81882c3264c9fad2788e2d371c6a.s3tc.ctex"]
 
 [params]
 

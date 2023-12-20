@@ -1,0 +1,92 @@
+[gd_scene load_steps=12 format=3 uid="uid://bxjvlodthlg4o"]
+
+[ext_resource type="Script" path="res://archer.gd" id="1_861fh"]
+[ext_resource type="Material" uid="uid://dphiqobn4h8de" path="res://art/golem_material.tres" id="1_eis4b"]
+
+[sub_resource type="Curve" id="Curve_euceb"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.118557, 0.446535), 0.0, 0.0, 0, 0, Vector2(0.198454, 0.871287), 0.0, 0.0, 0, 0, Vector2(0.569588, 0.504455), 0.0, 0.0, 0, 0, Vector2(0.971649, 0.324257), -1.12111, -1.12111, 0, 0, Vector2(1, 0.00891089), -15.8146, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_bjvqj"]
+material = ExtResource("1_eis4b")
+curve = SubResource("Curve_euceb")
+
+[sub_resource type="Curve" id="Curve_3882b"]
+_data = [Vector2(0.00515464, 0.00247526), 0.0, 2.57758, 0, 0, Vector2(0.180412, 0.465842), 0.0, 0.0, 0, 0, Vector2(0.286082, 0.70396), 0.0, 0.0, 0, 0, Vector2(0.39433, 0.478713), 0.0, 0.0, 0, 0, Vector2(0.5, 0.292079), 0.0, 0.0, 0, 0, Vector2(0.572165, 0.684653), 0.0, 0.0, 0, 0, Vector2(0.646907, 0.420792), 0.0, 0.0, 0, 0, Vector2(0.719072, 0.620297), 0.0, 0.0, 0, 0, Vector2(0.773196, 0.24703), 0.0, 0.0, 0, 0, Vector2(0.938144, 0.343564), 0.0, 0.0, 0, 0, Vector2(0.997423, 0.00891089), 0.0, 0.0, 0, 0]
+point_count = 11
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_68dmt"]
+material = ExtResource("1_eis4b")
+radius = 0.2
+radial_steps = 4
+sections = 3
+curve = SubResource("Curve_3882b")
+
+[sub_resource type="Curve" id="Curve_vdoh7"]
+_data = [Vector2(0, 0), 0.0, 4.7943, 0, 0, Vector2(0.157216, 0.620297), 1.24851, 1.24851, 0, 0, Vector2(0.342783, 0.665347), 0.0, 0.0, 0, 0, Vector2(0.471649, 0.929208), 0.131422, 0.131422, 0, 0, Vector2(0.701031, 0.504455), 0.0, 0.0, 0, 0, Vector2(0.796392, 0.723267), -0.561832, -0.561832, 0, 0, Vector2(0.992268, 0.478713), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.72403, 0.0, 0, 0]
+point_count = 8
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_w6dop"]
+material = ExtResource("1_eis4b")
+radius = 0.2
+sections = 3
+section_length = 0.15
+curve = SubResource("Curve_vdoh7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5oblk"]
+albedo_color = Color(0.835294, 0.384314, 0.141176, 1)
+metallic = 0.45
+roughness = 0.0
+emission_enabled = true
+emission = Color(1, 0, 0.0235294, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_vbmv3"]
+material = SubResource("StandardMaterial3D_5oblk")
+radius = 0.05
+height = 0.1
+radial_segments = 4
+rings = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yc2oi"]
+size = Vector3(0.751709, 1.47083, 1)
+
+[node name="Archer" type="CharacterBody3D"]
+script = ExtResource("1_861fh")
+
+[node name="torso" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="torso"]
+mesh = SubResource("TubeTrailMesh_bjvqj")
+skeleton = NodePath("../..")
+
+[node name="left_arm" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.215, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="left_arm"]
+mesh = SubResource("TubeTrailMesh_68dmt")
+
+[node name="right_arm" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.215, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="right_arm"]
+mesh = SubResource("TubeTrailMesh_68dmt")
+
+[node name="head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.818131, 0)
+
+[node name="skull" type="MeshInstance3D" parent="head"]
+mesh = SubResource("TubeTrailMesh_w6dop")
+
+[node name="left_eye" type="MeshInstance3D" parent="head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0785712, -0.083506, -0.0901639)
+mesh = SubResource("SphereMesh_vbmv3")
+
+[node name="right_eye" type="MeshInstance3D" parent="head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.079, -0.084, -0.09)
+mesh = SubResource("SphereMesh_vbmv3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0308838, 0.235413, 0)
+shape = SubResource("BoxShape3D_yc2oi")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]

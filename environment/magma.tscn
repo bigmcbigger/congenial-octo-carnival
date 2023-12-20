@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bijrluamfmoij"]
 
 [ext_resource type="Shader" path="res://environment/magma.gdshader" id="1_qw4lv"]
-[ext_resource type="Texture2D" uid="uid://dxeclwnpiild6" path="res://magma_tiled.png" id="2_lage2"]
+[ext_resource type="Texture2D" uid="uid://dxeclwnpiild6" path="res://art/magma_tiled.png" id="2_lage2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6xrcn"]
 render_priority = 0
