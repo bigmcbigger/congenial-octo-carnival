@@ -93,3 +93,6 @@ shape = SubResource("BoxShape3D_yc2oi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.60329, 0)
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="navigation_point"]
+
+[node name="attack_timer" type="Timer" parent="."]
+one_shot = true
