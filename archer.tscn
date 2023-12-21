@@ -59,16 +59,18 @@ script = ExtResource("1_861fh")
 mesh = SubResource("TubeTrailMesh_bjvqj")
 skeleton = NodePath("../..")
 
-[node name="left_arm" type="Node3D" parent="."]
+[node name="shoulder" type="Node3D" parent="."]
+
+[node name="left_arm" type="Node3D" parent="shoulder"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.215, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="left_arm"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="shoulder/left_arm"]
 mesh = SubResource("TubeTrailMesh_68dmt")
 
-[node name="right_arm" type="Node3D" parent="."]
+[node name="right_arm" type="Node3D" parent="shoulder"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.215, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="right_arm"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="shoulder/right_arm"]
 mesh = SubResource("TubeTrailMesh_68dmt")
 
 [node name="head" type="Node3D" parent="."]

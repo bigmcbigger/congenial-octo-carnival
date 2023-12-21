@@ -1,16 +1,19 @@
 extends CharacterBody3D
 
-# TODO set target on enter leash zone
-enum NAV_STATE {MOVING, BEGIN_ATTACK, ATTACKING, WAITING}
+enum NAV_STATE {MOVING, ATTACKING, WAITING}
+enum ATTACK_STATE {READY, WINDUP, ATTACK, COOLDOWN}
 
 @export var ATTACK_CANCEL_RANGE: float = 3.0
 @export var ATTACK_BEGIN_RANGE: float = 2.0
 @export var MOVE_SPEED: float = 8.0
 @export var AGGRO_RANGE: float = 20.0
-@export var ATTACK_DURATION: float = 1.0;
+@export var ATTACK_DURATION: float = 0.5;
+@export var WINDUP_DURATION: float = 0.5;
+@export var COOLDOWN_DURATION: float = 0.5;
 
 var navmap_ready = false
 var nav_state = NAV_STATE.WAITING
+var attack_state = ATTACK_STATE.READY
 var player = null
 
 @onready var navigation_agent = $navigation_point/NavigationAgent3D
@@ -25,7 +28,32 @@ func _ready():
 func deferred():
 	await get_tree().physics_frame
 	navmap_ready = true
-	
+
+func update_attack_state() -> ATTACK_STATE:
+	match attack_state:
+		ATTACK_STATE.READY:
+			attack_timer.start(WINDUP_DURATION)
+			return ATTACK_STATE.WINDUP
+		ATTACK_STATE.WINDUP:
+			if attack_timer.is_stopped():
+				attack_timer.start(ATTACK_DURATION)
+				return ATTACK_STATE.ATTACK
+			else:
+				return ATTACK_STATE.WINDUP
+			pass
+		ATTACK_STATE.ATTACK:
+			if attack_timer.is_stopped():
+				attack_timer.start(COOLDOWN_DURATION)
+				return ATTACK_STATE.COOLDOWN
+			else:
+				return ATTACK_STATE.ATTACK
+			pass
+		ATTACK_STATE.COOLDOWN:
+			if attack_timer.is_stopped():
+				return ATTACK_STATE.READY
+			else:
+				return ATTACK_STATE.COOLDOWN
+	return ATTACK_STATE.READY
 
 func update_navigation_state() -> NAV_STATE:
 	if not navmap_ready:
@@ -40,7 +68,7 @@ func update_navigation_state() -> NAV_STATE:
 					navigation_agent.set_target_position(player_pos)
 					return NAV_STATE.MOVING
 				else:
-					return NAV_STATE.BEGIN_ATTACK
+					return NAV_STATE.ATTACKING
 			else:
 				var target_pos = navigation_agent.target_position
 				if target_pos.distance_to(player_pos) > ATTACK_BEGIN_RANGE:
@@ -48,19 +76,14 @@ func update_navigation_state() -> NAV_STATE:
 					# a new position
 					navigation_agent.set_target_position(player_pos)
 			return NAV_STATE.MOVING
-		NAV_STATE.BEGIN_ATTACK:
-			attack_timer.start(ATTACK_DURATION)
-			return NAV_STATE.ATTACKING
 		NAV_STATE.ATTACKING:
-			# stay attacking until timer is up
-			if attack_timer.is_stopped():
-				# TODO we could do a cooldown instead of going to
-				# moving -> attack instantly.
+			attack_state = update_attack_state()
+			if attack_state == ATTACK_STATE.COOLDOWN or attack_state == ATTACK_STATE.READY:
+				# Attack is finished
 				return NAV_STATE.MOVING
 			else:
 				return NAV_STATE.ATTACKING
 		NAV_STATE.WAITING:
-			# TODO wait for target
 			if player_pos.distance_to(agent_pos) < AGGRO_RANGE:
 				return NAV_STATE.MOVING
 			return NAV_STATE.WAITING
@@ -72,10 +95,24 @@ func _process(delta):
 	# TODO when within distance begin attack sequence
 	nav_state = update_navigation_state()
 
+var temp = false
 func _physics_process(delta):
 	
-	if nav_state == NAV_STATE.MOVING:
-		look_at(player.global_position)
+	# TODO face player (rotate about y only)
+	if attack_state == ATTACK_STATE.ATTACK:
+		if not temp:
+			$shoulder/left_arm/MeshInstance3D.translate(Vector3(1.0, 0.0, 0.0))
+			$shoulder/left_arm/MeshInstance3D.rotate(Vector3(0,0,1), PI/2)
+			$shoulder/right_arm/MeshInstance3D.translate(Vector3(-1.0, 0.0, 0.0))
+			$shoulder/right_arm/MeshInstance3D.rotate(Vector3(0,0,1), -PI/2)
+			temp = true
+		$shoulder.rotate_y(0.2)
+	else:
+		$shoulder.set_identity()
+		$shoulder/left_arm/MeshInstance3D.set_identity()
+		$shoulder/right_arm/MeshInstance3D.set_identity()
+
+		temp = false
 	if navigation_agent.is_navigation_finished():
 		return
 
