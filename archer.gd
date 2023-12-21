@@ -7,8 +7,8 @@ enum ATTACK_STATE {READY, WINDUP, ATTACK, COOLDOWN}
 @export var ATTACK_BEGIN_RANGE: float = 2.0
 @export var MOVE_SPEED: float = 8.0
 @export var AGGRO_RANGE: float = 20.0
-@export var ATTACK_DURATION: float = 0.5;
-@export var WINDUP_DURATION: float = 0.5;
+@export var ATTACK_DURATION: float = 1.0;
+@export var WINDUP_DURATION: float = 0.2;
 @export var COOLDOWN_DURATION: float = 0.5;
 
 var navmap_ready = false
@@ -18,6 +18,18 @@ var player = null
 
 @onready var navigation_agent = $navigation_point/NavigationAgent3D
 @onready var attack_timer = $attack_timer
+@onready var left_arm_mesh = $shoulder/left_arm/MeshInstance3D
+@onready var right_arm_mesh = $shoulder/right_arm/MeshInstance3D
+@onready var shoulder = $shoulder
+
+# p in [0,1]
+# s in [0,1)
+func sigmoid(t: float, p: float, s: float) -> float:
+	var c = 2 / (1 - s) - 1
+	if t <= p:
+		return pow(t, c) / (pow(p, c - 1))
+	else:
+		return 1 - (pow(1 - t, c) / pow(1 - p, c - 1))
 
 func _ready():
 	call_deferred("deferred")
@@ -33,8 +45,17 @@ func update_attack_state() -> ATTACK_STATE:
 	match attack_state:
 		ATTACK_STATE.READY:
 			attack_timer.start(WINDUP_DURATION)
+			left_arm_mesh.translate(Vector3(1.0, 0.0, 0.0))
+			left_arm_mesh.rotate(Vector3(0,0,1), PI/2)
+			right_arm_mesh.translate(Vector3(-1.0, 0.0, 0.0))
+			right_arm_mesh.rotate(Vector3(0,0,1), -PI/2)
 			return ATTACK_STATE.WINDUP
 		ATTACK_STATE.WINDUP:
+			# TODO could implement attack cancellation during windup
+			# if the target moves out of range, transition
+			# to ready in that case.
+			# TODO instead of instantly translating, animate the arm movement
+			# across the windup duration
 			if attack_timer.is_stopped():
 				attack_timer.start(ATTACK_DURATION)
 				return ATTACK_STATE.ATTACK
@@ -42,13 +63,22 @@ func update_attack_state() -> ATTACK_STATE:
 				return ATTACK_STATE.WINDUP
 			pass
 		ATTACK_STATE.ATTACK:
+			
 			if attack_timer.is_stopped():
 				attack_timer.start(COOLDOWN_DURATION)
+				shoulder.set_identity()
+				left_arm_mesh.set_identity()
+				right_arm_mesh.set_identity()
 				return ATTACK_STATE.COOLDOWN
 			else:
+				shoulder.set_rotation
+				shoulder.set_identity()
+				var t = (ATTACK_DURATION - attack_timer.time_left) / ATTACK_DURATION
+				shoulder.rotate_y(sigmoid(t, 0.5, 0.5) * TAU)
 				return ATTACK_STATE.ATTACK
 			pass
 		ATTACK_STATE.COOLDOWN:
+			# TODO animate the winddown by translating back to center
 			if attack_timer.is_stopped():
 				return ATTACK_STATE.READY
 			else:
@@ -95,24 +125,9 @@ func _process(delta):
 	# TODO when within distance begin attack sequence
 	nav_state = update_navigation_state()
 
-var temp = false
 func _physics_process(delta):
 	
 	# TODO face player (rotate about y only)
-	if attack_state == ATTACK_STATE.ATTACK:
-		if not temp:
-			$shoulder/left_arm/MeshInstance3D.translate(Vector3(1.0, 0.0, 0.0))
-			$shoulder/left_arm/MeshInstance3D.rotate(Vector3(0,0,1), PI/2)
-			$shoulder/right_arm/MeshInstance3D.translate(Vector3(-1.0, 0.0, 0.0))
-			$shoulder/right_arm/MeshInstance3D.rotate(Vector3(0,0,1), -PI/2)
-			temp = true
-		$shoulder.rotate_y(0.2)
-	else:
-		$shoulder.set_identity()
-		$shoulder/left_arm/MeshInstance3D.set_identity()
-		$shoulder/right_arm/MeshInstance3D.set_identity()
-
-		temp = false
 	if navigation_agent.is_navigation_finished():
 		return
 
