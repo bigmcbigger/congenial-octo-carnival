@@ -20,6 +20,8 @@ var player = null
 @onready var attack_timer = $attack_timer
 @onready var left_arm_mesh = $shoulder/left_arm/MeshInstance3D
 @onready var right_arm_mesh = $shoulder/right_arm/MeshInstance3D
+@onready var left_emitter = $shoulder/left_arm/GPUParticles3D
+@onready var right_emitter = $shoulder/right_arm/GPUParticles3D
 @onready var shoulder = $shoulder
 
 # p in [0,1]
@@ -30,6 +32,10 @@ func sigmoid(t: float, p: float, s: float) -> float:
 		return pow(t, c) / (pow(p, c - 1))
 	else:
 		return 1 - (pow(1 - t, c) / pow(1 - p, c - 1))
+
+# shabby approx tangent to even sigmoid
+func der_sigmoid(t: float) -> float:
+	return clampf(-pow(2.5 * t - 1.25, 2) + 1, 0, 1)
 
 func _ready():
 	call_deferred("deferred")
@@ -50,10 +56,12 @@ func update_attack_state() -> ATTACK_STATE:
 			# TODO could implement attack cancellation during windup
 			# if the target moves out of range, transition
 			# to ready in that case.
-			# TODO instead of instantly translating, animate the arm movement
-			# across the windup duration
 			if attack_timer.is_stopped():
 				attack_timer.start(ATTACK_DURATION)
+				left_emitter.set_emitting(true)
+				right_emitter.set_emitting(true)
+				left_emitter.set_amount_ratio(0)
+				right_emitter.set_amount_ratio(0)
 				return ATTACK_STATE.ATTACK
 			else:
 				var t = 1 - (attack_timer.time_left / WINDUP_DURATION)
@@ -69,12 +77,16 @@ func update_attack_state() -> ATTACK_STATE:
 			
 			if attack_timer.is_stopped():
 				attack_timer.start(COOLDOWN_DURATION)
+				left_emitter.set_emitting(false)
+				right_emitter.set_emitting(false)
 				return ATTACK_STATE.COOLDOWN
 			else:
 				shoulder.set_rotation
 				shoulder.set_identity()
 				var t = 1 - (attack_timer.time_left / ATTACK_DURATION)
 				shoulder.rotate_y(sigmoid(t, 0.5, 0.5) * TAU)
+				$shoulder/left_arm/GPUParticles3D.set_amount_ratio(der_sigmoid(t))
+				$shoulder/right_arm/GPUParticles3D.set_amount_ratio(der_sigmoid(t))
 				return ATTACK_STATE.ATTACK
 			pass
 		ATTACK_STATE.COOLDOWN:
@@ -136,6 +148,7 @@ func _process(delta):
 	# TODO could bring update_attack_state() to this level
 	# to allow cooldown animation to be updated outside of the attack
 	# navigation state.
+	# Also this allows for winding up while moving to the player.
 
 func _physics_process(delta):
 	

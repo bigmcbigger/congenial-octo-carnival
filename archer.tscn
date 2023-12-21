@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxjvlodthlg4o"]
+[gd_scene load_steps=18 format=3 uid="uid://bxjvlodthlg4o"]
 
 [ext_resource type="Script" path="res://archer.gd" id="1_861fh"]
 [ext_resource type="Material" uid="uid://dphiqobn4h8de" path="res://art/golem_material.tres" id="1_eis4b"]
@@ -21,6 +21,42 @@ radius = 0.2
 radial_steps = 4
 sections = 3
 curve = SubResource("Curve_3882b")
+
+[sub_resource type="Curve" id="Curve_4b5rk"]
+_data = [Vector2(0, 0.962984), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8jih3"]
+curve = SubResource("Curve_4b5rk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_if5ex"]
+emission_shape = 1
+emission_sphere_radius = 0.3
+spread = 11.129
+initial_velocity_min = 2.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_8jih3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j1rrh"]
+albedo_color = Color(0.270588, 0.270588, 0.270588, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_63527"]
+material = SubResource("StandardMaterial3D_j1rrh")
+radius = 0.05
+height = 0.1
+radial_segments = 8
+rings = 8
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vvqqm"]
+emission_shape = 1
+emission_sphere_radius = 0.3
+direction = Vector3(-1, 0, 0)
+spread = 11.129
+initial_velocity_min = 2.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_8jih3")
 
 [sub_resource type="Curve" id="Curve_vdoh7"]
 _data = [Vector2(0, 0), 0.0, 4.7943, 0, 0, Vector2(0.157216, 0.620297), 1.24851, 1.24851, 0, 0, Vector2(0.342783, 0.665347), 0.0, 0.0, 0, 0, Vector2(0.471649, 0.929208), 0.131422, 0.131422, 0, 0, Vector2(0.701031, 0.504455), 0.0, 0.0, 0, 0, Vector2(0.796392, 0.723267), -0.561832, -0.561832, 0, 0, Vector2(0.992268, 0.478713), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.72403, 0.0, 0, 0]
@@ -67,11 +103,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.215, 0)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="shoulder/left_arm"]
 mesh = SubResource("TubeTrailMesh_68dmt")
 
+[node name="GPUParticles3D" type="GPUParticles3D" parent="shoulder/left_arm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+emitting = false
+amount = 60
+lifetime = 0.5
+randomness = 0.35
+process_material = SubResource("ParticleProcessMaterial_if5ex")
+draw_pass_1 = SubResource("SphereMesh_63527")
+
 [node name="right_arm" type="Node3D" parent="shoulder"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.215, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="shoulder/right_arm"]
 mesh = SubResource("TubeTrailMesh_68dmt")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="shoulder/right_arm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+emitting = false
+amount = 60
+lifetime = 0.5
+randomness = 0.35
+process_material = SubResource("ParticleProcessMaterial_vvqqm")
+draw_pass_1 = SubResource("SphereMesh_63527")
 
 [node name="head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.818131, 0)
