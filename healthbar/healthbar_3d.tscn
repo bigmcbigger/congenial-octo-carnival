@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://d08kj8iudga7a"]
+
+[ext_resource type="Texture2D" uid="uid://pd76kjja6hx7" path="res://art/healthbar/green.png" id="1_o2ivh"]
+[ext_resource type="Script" path="res://healthbar/healthbar_3d.gd" id="2_d2234"]
+[ext_resource type="Script" path="res://healthbar/healthbar_2d.gd" id="3_qml8y"]
+
+[node name="Healthbar3D" type="Sprite3D"]
+billboard = 1
+texture = ExtResource("1_o2ivh")
+script = ExtResource("2_d2234")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(200, 26)
+
+[node name="Healthbar2D" type="TextureProgressBar" parent="SubViewport"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_qml8y")

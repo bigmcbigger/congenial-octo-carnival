@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://character.gd" id="1_vj8ar"]
 [ext_resource type="Script" path="res://Pivot.gd" id="2_og4p0"]
 [ext_resource type="PackedScene" uid="uid://cr6hgbalj1c71" path="res://art/mob.glb" id="2_qs5fm"]
-[ext_resource type="PackedScene" uid="uid://bw54jlqsrcn76" path="res://attacks/BasicAttack.tscn" id="4_qphmi"]
+[ext_resource type="PackedScene" uid="uid://bw54jlqsrcn76" path="res://attacks/AttackMoves.tscn" id="4_v7ke7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_asogy"]
 
@@ -43,12 +43,15 @@ script = ExtResource("2_og4p0")
 [node name="mob" parent="Pivot" instance=ExtResource("2_qs5fm")]
 transform = Transform3D(-0.208873, -2.48833e-08, 7.0234e-16, 0, -1.24417e-08, -0.183793, 1.82602e-08, -0.284632, 8.03383e-09, 0, -0.135871, 0)
 
-[node name="BasicAttack" parent="Pivot" instance=ExtResource("4_qphmi")]
+[node name="AttackMoves" parent="Pivot" instance=ExtResource("4_v7ke7")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-damage = 10
 
 [node name="Dash" type="Timer" parent="."]
 wait_time = 2.0
+one_shot = true
+
+[node name="SpecialAttack_CCTimer" type="Timer" parent="."]
+wait_time = 0.9
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

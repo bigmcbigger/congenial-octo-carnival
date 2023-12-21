@@ -11,12 +11,15 @@ const HEALTH = 100
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var dash_state = false
 
-@onready var animation_basic_attack = $Pivot/BasicAttack/AnimationPlayer
-#@onready var hitbox_animation = $Hitbox/HitboxCollission/AnimationPlayer
+@onready var attack_basic = $Pivot/AttackMoves
+#@onready var attack_special = $Pivot/SpecialAttack
 
-func _process(delta):
-	if Input.is_action_just_pressed("attack"):
-		animation_basic_attack.play("basic_attack")
+func _input(event):
+	if Input.is_action_just_pressed("attack"):  
+		attack_basic.get_node("AnimationPlayer").play("basic_attack")
+	if Input.is_action_just_pressed("special"):
+		$SpecialAttack_CCTimer.start(0.5)
+		attack_basic.get_node("AnimationPlayer").play("special_attack")
 
 var target_velocity = Vector3.ZERO
 
@@ -43,7 +46,11 @@ func _physics_process(delta):
 		$Pivot.look_at(position + direction, Vector3.UP)
 		
 	var direction_facing = $Pivot.transform.basis.z
-				
+	
+	
+	if not $SpecialAttack_CCTimer.is_stopped():
+		return
+	
 	if not $Dash.is_stopped():
 		target_velocity = direction * DASH_ACCELERATION
 	else:	

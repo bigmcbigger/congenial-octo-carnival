@@ -8,7 +8,6 @@ func _ready():
 	collision_layer = 2
 	collision_mask = 0
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
