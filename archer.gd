@@ -45,6 +45,7 @@ func _ready():
 	
 func spawn_at(start_position: Vector3):
 	position = start_position
+	
 
 func deferred():
 	await get_tree().physics_frame
@@ -171,9 +172,12 @@ func _physics_process(delta):
 	move_and_slide()
 	
 # ------- Damage -------
-var normie_max_health = 100
-var normie_health = 100
+@export var mob_maxhealth = 100
+var health = mob_maxhealth
 
 func take_damage(amount: int):
-	normie_health -= amount	
-	$Healthbar3D.update(normie_health, normie_max_health)
+	health -= amount	
+	$Healthbar3D.update(health, mob_maxhealth)
+	
+	if health < 0:
+		queue_free()
