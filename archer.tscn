@@ -79,13 +79,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.818131, 0)
 [node name="skull" type="MeshInstance3D" parent="head"]
 mesh = SubResource("TubeTrailMesh_w6dop")
 
-[node name="left_eye" type="MeshInstance3D" parent="head"]
+[node name="left_eye" type="MeshInstance3D" parent="head/skull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0785712, -0.083506, -0.0901639)
 mesh = SubResource("SphereMesh_vbmv3")
+skeleton = NodePath("../..")
 
-[node name="right_eye" type="MeshInstance3D" parent="head"]
+[node name="right_eye" type="MeshInstance3D" parent="head/skull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.079, -0.084, -0.09)
 mesh = SubResource("SphereMesh_vbmv3")
+skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0308838, 0.235413, 0)

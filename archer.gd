@@ -9,7 +9,7 @@ enum ATTACK_STATE {READY, WINDUP, ATTACK, COOLDOWN}
 @export var AGGRO_RANGE: float = 20.0
 @export var ATTACK_DURATION: float = 1.0;
 @export var WINDUP_DURATION: float = 0.2;
-@export var COOLDOWN_DURATION: float = 0.1;
+@export var COOLDOWN_DURATION: float = 0.5;
 
 var navmap_ready = false
 var nav_state = NAV_STATE.WAITING
@@ -132,12 +132,18 @@ func update_navigation_state() -> NAV_STATE:
 	
 	
 func _process(delta):
-	# TODO when within distance begin attack sequence
 	nav_state = update_navigation_state()
+	# TODO could bring update_attack_state() to this level
+	# to allow cooldown animation to be updated outside of the attack
+	# navigation state.
 
 func _physics_process(delta):
 	
-	# TODO face player (rotate about y only)
+	if nav_state != NAV_STATE.WAITING:
+		var player_pos = player.global_position
+		player_pos.y = global_position.y
+		look_at(player_pos)
+
 	if navigation_agent.is_navigation_finished():
 		return
 

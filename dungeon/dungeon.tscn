@@ -61,7 +61,7 @@ light_indirect_energy = 1.158
 light_angular_distance = 23.17
 
 [node name="Archer" parent="." instance=ExtResource("4_dewp4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.624448, 199.031)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.566454, 199.031)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_ghajr")
