@@ -10,8 +10,8 @@ const vec3 orange = vec3(1.0, 0.1, 0.0);
 void vertex() {
 	// Called for every vertex the material is visible on.
 	float displace = cos(VERTEX.x + TIME) + sin(VERTEX.z + TIME);
-	VERTEX.y += displace * 0.1;
-	UV *= 5.0;
+	VERTEX.y += displace * 0.05;
+	UV = VERTEX.xz / 10.0;
 	UV += vec2(1.0, 0.0) * TIME * 0.05;
 }
 

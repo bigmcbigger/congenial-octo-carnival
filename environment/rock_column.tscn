@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bailc0o1engnt"]
 
-[ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://concrete_tiled.png" id="1_7tde5"]
+[ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://art/concrete_tiled.png" id="1_7tde5"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_8frcy"]
 height = 15.0

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cpiwyaa6qa7ky"
-path.s3tc="res://.godot/imported/concrete_tiled.png-a9041e215695b0936f38f4d83dcbbdca.s3tc.ctex"
+path.s3tc="res://.godot/imported/concrete_tiled.png-6d5b4a63087b4a5c115464939dda1991.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://concrete_tiled.png"
-dest_files=["res://.godot/imported/concrete_tiled.png-a9041e215695b0936f38f4d83dcbbdca.s3tc.ctex"]
+source_file="res://art/concrete_tiled.png"
+dest_files=["res://.godot/imported/concrete_tiled.png-6d5b4a63087b4a5c115464939dda1991.s3tc.ctex"]
 
 [params]
 

@@ -5,11 +5,12 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const FALL_ACCELERATION = 75
 const DASH_ACCELERATION = 40
-const HEALTH = 100
+const LAVA_DAMAGE_RATE = 0.5;
+
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-var dash_state = false
+var health = 100.0;
 
 @onready var attack_basic = $Pivot/AttackMoves
 #@onready var attack_special = $Pivot/SpecialAttack
@@ -72,4 +73,19 @@ func _physics_process(delta):
 
 func update_health():
 	var player_health = $HealthBar
-	player_health.value = HEALTH
+	player_health.value = health
+	
+	# Test for lava damage:
+	if $Dash.is_stopped():
+		var test_point = self.global_position
+		test_point.y -= 0.5;
+		var space_state = get_world_3d().direct_space_state
+		var ground_query = PhysicsPointQueryParameters3D.new()
+		ground_query.set_position(test_point)
+		var result = space_state.intersect_point(ground_query)
+		if result.size() == 0:
+			health -= LAVA_DAMAGE_RATE;
+
+func _on_hitbox_area_entered(area):
+	if area.is_in_group("enemy"):
+		print("get shit on")

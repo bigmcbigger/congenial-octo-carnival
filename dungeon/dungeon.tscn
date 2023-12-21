@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=3 uid="uid://ci5buopmxr8wd"]
+
+[ext_resource type="PackedScene" uid="uid://dflnitqavpjn3" path="res://character.tscn" id="1_3vaen"]
+[ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://art/concrete_tiled.png" id="1_esayu"]
+[ext_resource type="PackedScene" uid="uid://bxjvlodthlg4o" path="res://archer.tscn" id="4_dewp4"]
+[ext_resource type="PackedScene" uid="uid://bijrluamfmoij" path="res://environment/magma.tscn" id="5_b45qx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lsf5x"]
+albedo_texture = ExtResource("1_esayu")
+uv1_scale = Vector3(14.43, 14.43, 14.43)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_ghajr"]
+vertices = PackedVector3Array(-49.5, -0.106014, -249.5, -49.5, -0.106014, 249.5, 49.5, -0.106014, 249.5, 49.5, -0.106014, -249.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b61bq"]
+size = Vector2(100, 500)
+
+[node name="Dungeon" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_3vaen")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.72, -0.00355053, 233.415)
+
+[node name="Magma" parent="." instance=ExtResource("5_b45qx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.352, 0)
+
+[node name="island_2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -46.9425)
+
+[node name="ground" type="StaticBody3D" parent="island_2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.746303, 225.38)
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="island_2/ground"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+polygon = PackedVector2Array(13.9937, -15.5329, 15.0412, -17.8036, 16.9494, -19.9441, 23.1317, -17.1793, 29.8897, -16.4731, 34.583, -14.6471, 35.1268, -10.634, 34.5971, -5.69759, 30.9228, -3.76585, 24.328, -1.88168, 22.9836, 0.555969, 25.264, 2.29793, 34.7615, 2.22079, 35.7218, 6.39134, 31.0167, 8.43552, 36.8859, 10.9727, 37.6109, 17.8248, 28.0519, 34.4387, 16.7672, 37.4798, 13.7365, 26.539, 6.84799, 18.5271, -11.8214, 24.4772, -21.6093, 27.1067, -32.825, 17.2753, -31.0586, 9.93964, -20.9995, 9.27902, -20.3723, 5.09813, -28.5751, 3.3831, -24.4374, -1.92406, -25.9951, -5.23874, -22.1113, -8.53172, -16.5861, -12.0775, -13.5852, -9.37944, -10.0474, -8.37393, -11.8056, -5.0005, -12.9064, 1.66631, -8.02372, 1.3372, -5.66257, -3.41959, -3.50331, -6.4222, 5.35486, -11.5505)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="island_2/ground"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.5, 0)
+polygon = PackedVector2Array(13.9937, -15.5329, 15.0412, -17.8036, 16.9494, -19.9441, 23.1317, -17.1793, 29.8897, -16.4731, 34.583, -14.6471, 35.1268, -10.634, 34.5971, -5.69759, 30.9228, -3.76585, 24.328, -1.88168, 22.9836, 0.555969, 25.264, 2.29793, 34.7615, 2.22079, 35.7218, 6.39134, 31.0167, 8.43552, 36.8859, 10.9727, 37.6109, 17.8248, 28.0519, 34.4387, 16.7672, 37.4798, 13.7365, 26.539, 6.84799, 18.5271, -11.8214, 24.4772, -21.6093, 27.1067, -32.825, 17.2753, -31.0586, 9.93964, -20.9995, 9.27902, -20.3723, 5.09813, -28.5751, 3.3831, -24.4374, -1.92406, -25.9951, -5.23874, -22.1113, -8.53172, -16.5861, -12.0775, -13.5852, -9.37944, -10.0474, -8.37393, -11.8056, -5.0005, -12.9064, 1.66631, -8.02372, 1.3372, -5.66257, -3.41959, -3.50331, -6.4222, 5.35486, -11.5505)
+material = SubResource("StandardMaterial3D_lsf5x")
+
+[node name="island_1" type="Node3D" parent="."]
+
+[node name="ground" type="StaticBody3D" parent="island_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.746303, 225.38)
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="island_1/ground"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.19209e-07, 0)
+polygon = PackedVector2Array(-0.192713, -0.341776, -2.62819, -0.880939, -4.87395, -0.828619, -8.52633, -0.692082, -10.2775, -0.0566473, -11.8224, 2.12065, -12.0434, 4.1059, -11.7568, 6.25735, -10.0414, 7.48658, -8.3782, 6.67413, -5.86516, 7.34166, -2.51423, 8.12744, -0.982465, 11.5579, -0.99069, 16.3886, -3.84354, 17.4888, -8.51561, 18.6008, -12.4579, 20.4155, -15.1149, 19.345, -15.6996, 24.7068, -14.2759, 30.6065, -12.4169, 32.5069, -10.5976, 31.1246, -5.97394, 32.2719, -2.0882, 30.3643, 5.76426, 26.6573, 7.9999, 21.6995, 13.0455, 19.7482, 21.7063, 24.8783, 30.4954, 26.1925, 32.5466, 20.6411, 28.3335, 9.55315, 30.117, 4.12371, 32.5184, 1.10417, 34.3206, -4.65022, 28.5318, -7.75087, 21.133, -9.67891, 14.8168, -10.5019, 12.0927, -8.00983, 10.2917, -3.36441, 10.7549, 2.77832)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="island_1/ground"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.5, 0)
+polygon = PackedVector2Array(-0.192713, -0.341776, -2.62819, -0.880939, -4.87395, -0.828619, -8.52633, -0.692082, -10.2775, -0.0566473, -11.8224, 2.12065, -12.0434, 4.1059, -11.7568, 6.25735, -10.0414, 7.48658, -8.3782, 6.67413, -5.86516, 7.34166, -2.51423, 8.12744, -0.982465, 11.5579, -0.99069, 16.3886, -3.84354, 17.4888, -8.51561, 18.6008, -12.4579, 20.4155, -15.1149, 19.345, -15.6996, 24.7068, -14.2759, 30.6065, -12.4169, 32.5069, -10.5976, 31.1246, -5.97394, 32.2719, -2.0882, 30.3643, 5.76426, 26.6573, 7.9999, 21.6995, 13.0455, 19.7482, 21.7063, 24.8783, 30.4954, 26.1925, 32.5466, 20.6411, 28.3335, 9.55315, 30.117, 4.12371, 32.5184, 1.10417, 34.3206, -4.65022, 28.5318, -7.75087, 21.133, -9.67891, 14.8168, -10.5019, 12.0927, -8.00983, 10.2917, -3.36441, 10.7549, 2.77832)
+material = SubResource("StandardMaterial3D_lsf5x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.415551, 0.90957, 0, -0.90957, 0.415551, 0.510771, 30.2464, -4.90451)
+light_color = Color(0.47451, 0.141176, 0, 1)
+light_energy = 0.446
+light_indirect_energy = 1.158
+light_angular_distance = 23.17
+
+[node name="Archer" parent="." instance=ExtResource("4_dewp4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.566454, 199.031)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_ghajr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.606014, 0)
+visible = false
+mesh = SubResource("PlaneMesh_b61bq")
