@@ -166,3 +166,11 @@ func _physics_process(delta):
 	velocity = current_position.direction_to(next_path_position) * MOVE_SPEED;
 	velocity.y = 0.0;
 	move_and_slide()
+	
+# ------- Damage -------
+var normie_max_health = 100
+var normie_health = 100
+
+func take_damage(amount: int):
+	normie_health -= amount	
+	$Healthbar3D.update(normie_health, normie_max_health)

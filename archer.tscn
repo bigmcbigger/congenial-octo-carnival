@@ -1,7 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://bxjvlodthlg4o"]
+[gd_scene load_steps=22 format=3 uid="uid://cf57n0hfetgs3"]
 
 [ext_resource type="Script" path="res://archer.gd" id="1_861fh"]
-[ext_resource type="Material" uid="uid://dphiqobn4h8de" path="res://art/golem_material.tres" id="1_eis4b"]
+[ext_resource type="Material" path="res://art/golem_material.tres" id="1_eis4b"]
+[ext_resource type="Script" path="res://enemies/HurtBoxBasic.gd" id="3_sigof"]
+[ext_resource type="PackedScene" uid="uid://d08kj8iudga7a" path="res://healthbar/healthbar_3d.tscn" id="4_72cm5"]
 
 [sub_resource type="Curve" id="Curve_euceb"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.118557, 0.446535), 0.0, 0.0, 0, 0, Vector2(0.198454, 0.871287), 0.0, 0.0, 0, 0, Vector2(0.569588, 0.504455), 0.0, 0.0, 0, 0, Vector2(0.971649, 0.324257), -1.12111, -1.12111, 0, 0, Vector2(1, 0.00891089), -15.8146, 0.0, 0, 0]
@@ -86,6 +88,11 @@ rings = 3
 [sub_resource type="BoxShape3D" id="BoxShape3D_yc2oi"]
 size = Vector3(0.751709, 1.47083, 1)
 
+[sub_resource type="BoxMesh" id="BoxMesh_321xt"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_m2fye"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
 [node name="Archer" type="CharacterBody3D"]
 script = ExtResource("1_861fh")
 
@@ -146,6 +153,7 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0308838, 0.235413, 0)
 shape = SubResource("BoxShape3D_yc2oi")
+disabled = true
 
 [node name="navigation_point" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.60329, 0)
@@ -154,3 +162,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.60329, 0)
 
 [node name="attack_timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="HurtBoxBasic" type="Area3D" parent="."]
+script = ExtResource("3_sigof")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HurtBoxBasic"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_321xt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBoxBasic"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_m2fye")
+
+[node name="Healthbar3D" parent="." instance=ExtResource("4_72cm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36639, 0)
+
+[connection signal="area_entered" from="HurtBoxBasic" to="HurtBoxBasic" method="_on_area_entered"]

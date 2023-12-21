@@ -34,5 +34,5 @@ material_override = SubResource("StandardMaterial3D_ffnk2")
 mesh = SubResource("BoxMesh_h527p")
 skeleton = NodePath("../..")
 
-[node name="CharacterBody3D" parent="." instance=ExtResource("2_c3k51")]
+[node name="normie_01" parent="." instance=ExtResource("2_c3k51")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.09803)

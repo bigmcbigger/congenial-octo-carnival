@@ -85,7 +85,4 @@ func update_health():
 		var result = space_state.intersect_point(ground_query)
 		if result.size() == 0:
 			health -= LAVA_DAMAGE_RATE;
-
-func _on_hitbox_area_entered(area):
-	if area.is_in_group("enemy"):
-		print("get shit on")
+			

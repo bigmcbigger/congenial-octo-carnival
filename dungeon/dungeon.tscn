@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dflnitqavpjn3" path="res://character.tscn" id="1_3vaen"]
 [ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://art/concrete_tiled.png" id="1_esayu"]
-[ext_resource type="PackedScene" uid="uid://bxjvlodthlg4o" path="res://archer.tscn" id="4_dewp4"]
+[ext_resource type="PackedScene" uid="uid://cf57n0hfetgs3" path="res://archer.tscn" id="4_dewp4"]
 [ext_resource type="PackedScene" uid="uid://bijrluamfmoij" path="res://environment/magma.tscn" id="5_b45qx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lsf5x"]
@@ -20,6 +20,8 @@ size = Vector2(100, 500)
 
 [node name="Player" parent="." instance=ExtResource("1_3vaen")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.72, -0.00355053, 233.415)
+collision_layer = 1
+collision_mask = 1
 
 [node name="Magma" parent="." instance=ExtResource("5_b45qx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.352, 0)
