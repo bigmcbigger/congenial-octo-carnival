@@ -9,7 +9,7 @@ enum ATTACK_STATE {READY, WINDUP, ATTACK, COOLDOWN}
 @export var AGGRO_RANGE: float = 20.0
 @export var ATTACK_DURATION: float = 1.0;
 @export var WINDUP_DURATION: float = 0.2;
-@export var COOLDOWN_DURATION: float = 0.5;
+@export var COOLDOWN_DURATION: float = 0.1;
 
 var navmap_ready = false
 var nav_state = NAV_STATE.WAITING
@@ -45,10 +45,6 @@ func update_attack_state() -> ATTACK_STATE:
 	match attack_state:
 		ATTACK_STATE.READY:
 			attack_timer.start(WINDUP_DURATION)
-			left_arm_mesh.translate(Vector3(1.0, 0.0, 0.0))
-			left_arm_mesh.rotate(Vector3(0,0,1), PI/2)
-			right_arm_mesh.translate(Vector3(-1.0, 0.0, 0.0))
-			right_arm_mesh.rotate(Vector3(0,0,1), -PI/2)
 			return ATTACK_STATE.WINDUP
 		ATTACK_STATE.WINDUP:
 			# TODO could implement attack cancellation during windup
@@ -60,28 +56,42 @@ func update_attack_state() -> ATTACK_STATE:
 				attack_timer.start(ATTACK_DURATION)
 				return ATTACK_STATE.ATTACK
 			else:
+				var t = 1 - (attack_timer.time_left / WINDUP_DURATION)
+				left_arm_mesh.set_identity()
+				left_arm_mesh.translate(Vector3(1.0, 0.0, 0.0) * t)
+				left_arm_mesh.rotate_z(t * PI/2)
+				right_arm_mesh.set_identity()
+				right_arm_mesh.translate(Vector3(-1.0, 0.0, 0.0) * t)
+				right_arm_mesh.rotate_z(t * -PI/2)
 				return ATTACK_STATE.WINDUP
 			pass
 		ATTACK_STATE.ATTACK:
 			
 			if attack_timer.is_stopped():
 				attack_timer.start(COOLDOWN_DURATION)
-				shoulder.set_identity()
-				left_arm_mesh.set_identity()
-				right_arm_mesh.set_identity()
 				return ATTACK_STATE.COOLDOWN
 			else:
 				shoulder.set_rotation
 				shoulder.set_identity()
-				var t = (ATTACK_DURATION - attack_timer.time_left) / ATTACK_DURATION
+				var t = 1 - (attack_timer.time_left / ATTACK_DURATION)
 				shoulder.rotate_y(sigmoid(t, 0.5, 0.5) * TAU)
 				return ATTACK_STATE.ATTACK
 			pass
 		ATTACK_STATE.COOLDOWN:
 			# TODO animate the winddown by translating back to center
 			if attack_timer.is_stopped():
+				shoulder.set_identity()
+				left_arm_mesh.set_identity()
+				right_arm_mesh.set_identity()
 				return ATTACK_STATE.READY
 			else:
+				var t = (attack_timer.time_left / COOLDOWN_DURATION)
+				left_arm_mesh.set_identity()
+				left_arm_mesh.translate(Vector3(1.0, 0.0, 0.0) * t)
+				left_arm_mesh.rotate_z(t * PI/2)
+				right_arm_mesh.set_identity()
+				right_arm_mesh.translate(Vector3(-1.0, 0.0, 0.0) * t)
+				right_arm_mesh.rotate_z(t * -PI/2)
 				return ATTACK_STATE.COOLDOWN
 	return ATTACK_STATE.READY
 
@@ -108,7 +118,7 @@ func update_navigation_state() -> NAV_STATE:
 			return NAV_STATE.MOVING
 		NAV_STATE.ATTACKING:
 			attack_state = update_attack_state()
-			if attack_state == ATTACK_STATE.COOLDOWN or attack_state == ATTACK_STATE.READY:
+			if attack_state == ATTACK_STATE.READY:
 				# Attack is finished
 				return NAV_STATE.MOVING
 			else:
