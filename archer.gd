@@ -42,6 +42,9 @@ func _ready():
 	player = get_tree().current_scene.get_node("Player")
 	navigation_agent.target_desired_distance = ATTACK_BEGIN_RANGE;
 	navigation_agent.path_desired_distance = ATTACK_BEGIN_RANGE;
+	
+func spawn_at(start_position: Vector3):
+	position = start_position
 
 func deferred():
 	await get_tree().physics_frame
