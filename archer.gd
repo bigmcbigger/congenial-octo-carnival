@@ -10,14 +10,19 @@ enum ATTACK_STATE {READY, WINDUP, ATTACK, COOLDOWN}
 @export var ATTACK_DURATION: float = 1.0;
 @export var WINDUP_DURATION: float = 0.2;
 @export var COOLDOWN_DURATION: float = 0.5;
+@export var DESPAWN_TIMER_SECONDS: float = 5.0;
 
 var navmap_ready = false
 var nav_state = NAV_STATE.WAITING
 var attack_state = ATTACK_STATE.READY
 var player = null
+var despawn_timer_started = false
 
 @onready var navigation_agent = $navigation_point/NavigationAgent3D
+
 @onready var attack_timer = $attack_timer
+@onready var despawn_timer = $despawn
+
 @onready var left_arm_mesh = $shoulder/left_arm/MeshInstance3D
 @onready var right_arm_mesh = $shoulder/right_arm/MeshInstance3D
 @onready var left_emitter = $shoulder/left_arm/GPUParticles3D
@@ -52,6 +57,8 @@ func deferred():
 	navmap_ready = true
 
 func update_attack_state() -> ATTACK_STATE:
+	if health <= 0:
+		return ATTACK_STATE.READY
 	match attack_state:
 		ATTACK_STATE.READY:
 			attack_timer.start(WINDUP_DURATION)
@@ -156,6 +163,14 @@ func _process(delta):
 
 func _physics_process(delta):
 	
+	if health <= 0 and not despawn_timer_started:
+		despawn_timer.start(DESPAWN_TIMER_SECONDS)
+		despawn_timer_started = true
+		return
+	
+	if despawn_timer_started:
+		return	
+	
 	if nav_state != NAV_STATE.WAITING:
 		var player_pos = player.global_position
 		player_pos.y = global_position.y
@@ -179,5 +194,15 @@ func take_damage(amount: int):
 	health -= amount	
 	$Healthbar3D.update(health, mob_maxhealth)
 	
-	if health < 0:
-		queue_free()
+	if health <= 0:
+		$torso.freeze = false
+		$shoulder/left_arm.freeze = false
+		$shoulder/right_arm.freeze = false
+		$head.freeze = false
+		#queue_free()
+
+
+func _on_despawn_timeout():
+	# TODO: Add death + fade animation
+	queue_free()
+	#pass # Replace with function body.
