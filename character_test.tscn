@@ -1,0 +1,242 @@
+[gd_scene load_steps=25 format=3 uid="uid://e1qj5kerko65"]
+
+[ext_resource type="Script" path="res://character.gd" id="1_ki2w3"]
+[ext_resource type="Script" path="res://Pivot.gd" id="2_2ynsf"]
+[ext_resource type="PackedScene" uid="uid://bw54jlqsrcn76" path="res://attacks/AttackMoves.tscn" id="4_uyl4t"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_asogy"]
+
+[sub_resource type="Curve" id="Curve_kygpr"]
+_data = [Vector2(0.0592784, 0), 0.0, 18.1707, 0, 0, Vector2(0.103093, 0.362871), 0.0, 0.0, 0, 0, Vector2(1, 0.343564), -2.59691, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lqv0x"]
+albedo_color = Color(0.47451, 0.372549, 0.32549, 1)
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_sghvo"]
+material = SubResource("StandardMaterial3D_lqv0x")
+radial_steps = 16
+sections = 4
+curve = SubResource("Curve_kygpr")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fft16"]
+albedo_color = Color(0.909804, 0.258824, 0.117647, 1)
+
+[sub_resource type="Curve" id="Curve_aeply"]
+_data = [Vector2(0.00773196, 0.20198), 0.0, 0.0, 0, 0, Vector2(1, 0.948515), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ugpi"]
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_inxlh"]
+material = SubResource("StandardMaterial3D_1ugpi")
+radius = 0.3
+sections = 2
+section_length = 0.1
+curve = SubResource("Curve_aeply")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pfs8e"]
+albedo_color = Color(0.176471, 0.156863, 0.356863, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kupng"]
+material = SubResource("StandardMaterial3D_pfs8e")
+size = Vector2(0.5, 0.8)
+subdivide_width = 5
+subdivide_depth = 5
+orientation = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_47i03"]
+radius = 0.316419
+
+[sub_resource type="Curve" id="Curve_25p5g"]
+_data = [Vector2(0, 0), 0.0, 8.87833, 0, 0, Vector2(0.17268, 0.652475), 0.0, 0.0, 0, 0, Vector2(0.425258, 0.382178), 0.0, 0.0, 0, 0, Vector2(1, 0.0346535), -0.864357, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ccqg"]
+albedo_color = Color(0.854902, 0.537255, 0, 1)
+metallic = 0.3
+metallic_specular = 1.0
+roughness = 0.0
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_e58tr"]
+material = SubResource("StandardMaterial3D_7ccqg")
+radius = 0.3
+sections = 4
+section_length = 0.15
+curve = SubResource("Curve_25p5g")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7a6bc"]
+albedo_color = Color(0.156863, 0.14902, 0.431373, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wypyw"]
+material = SubResource("StandardMaterial3D_7a6bc")
+top_radius = 0.05
+bottom_radius = 0.02
+height = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lickh"]
+albedo_color = Color(1, 0.501961, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.501961, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_qcbkq"]
+material = SubResource("StandardMaterial3D_lickh")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="Animation" id="Animation_m6ss0"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_qgmq4"]
+resource_name = "sword_swing"
+length = 0.5
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ar37n"]
+_data = {
+"RESET": SubResource("Animation_m6ss0"),
+"sword_swing": SubResource("Animation_qgmq4")
+}
+
+[node name="Character" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_ki2w3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000887632, 0.0479936, -0.103558)
+visible = false
+shape = SubResource("SphereShape3D_asogy")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42673, 0)
+visible = false
+text = "Hades"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.277315, 0.960779, 0, -0.960779, 0.277315, 0.00811815, 4.66918, 2.11388)
+current = true
+fov = 110.174
+
+[node name="Pivot" type="Node3D" parent="."]
+script = ExtResource("2_2ynsf")
+
+[node name="model" type="Node3D" parent="Pivot"]
+
+[node name="body" type="MeshInstance3D" parent="Pivot/model"]
+cast_shadow = 0
+mesh = SubResource("TubeTrailMesh_sghvo")
+
+[node name="hat" type="MeshInstance3D" parent="Pivot/model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.392931, 0)
+material_override = SubResource("StandardMaterial3D_fft16")
+cast_shadow = 0
+mesh = SubResource("TubeTrailMesh_inxlh")
+
+[node name="cape" type="SoftBody3D" parent="Pivot/model"]
+transform = Transform3D(1, 0, 0, 0, 0.844758, 0.535149, 0, -0.535149, 0.844758, 0, -0.0678066, 0.412649)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_kupng")
+collision_layer = 8
+collision_mask = 8
+simulation_precision = 100
+total_mass = 1.01
+damping_coefficient = 0.25
+ray_pickable = false
+pinned_points = [47, 43, 44, 45, 46, 48, 42]
+attachments/0/point_index = 47
+attachments/0/spatial_attachment_path = NodePath("..")
+attachments/0/offset = Vector3(-0.166667, 0.270097, 0.19859)
+attachments/1/point_index = 43
+attachments/1/spatial_attachment_path = NodePath("..")
+attachments/1/offset = Vector3(0.166667, 0.270097, 0.19859)
+attachments/2/point_index = 44
+attachments/2/spatial_attachment_path = NodePath("..")
+attachments/2/offset = Vector3(0.0833333, 0.270097, 0.19859)
+attachments/3/point_index = 45
+attachments/3/spatial_attachment_path = NodePath("..")
+attachments/3/offset = Vector3(2.48353e-09, 0.270097, 0.19859)
+attachments/4/point_index = 46
+attachments/4/spatial_attachment_path = NodePath("..")
+attachments/4/offset = Vector3(-0.0833333, 0.270097, 0.19859)
+attachments/5/point_index = 48
+attachments/5/spatial_attachment_path = NodePath("..")
+attachments/5/offset = Vector3(-0.25, 0.270097, 0.19859)
+attachments/6/point_index = 42
+attachments/6/spatial_attachment_path = NodePath("..")
+attachments/6/offset = Vector3(0.25, 0.270097, 0.19859)
+
+[node name="cape_collider" type="StaticBody3D" parent="Pivot/model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0754657, -0.0540889)
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/model/cape_collider"]
+shape = SubResource("SphereShape3D_47i03")
+
+[node name="left_leg_joint" type="Node3D" parent="Pivot/model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, -0.341, 0)
+
+[node name="Node3D" type="Node3D" parent="Pivot/model/left_leg_joint"]
+
+[node name="left_leg" type="MeshInstance3D" parent="Pivot/model/left_leg_joint/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.171594, 0)
+cast_shadow = 0
+mesh = SubResource("TubeTrailMesh_e58tr")
+skeleton = NodePath("../../..")
+
+[node name="right_leg_joint" type="Node3D" parent="Pivot/model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -0.341, 0)
+
+[node name="Node3D" type="Node3D" parent="Pivot/model/right_leg_joint"]
+
+[node name="right_leg" type="MeshInstance3D" parent="Pivot/model/right_leg_joint/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.171594, 0)
+cast_shadow = 0
+mesh = SubResource("TubeTrailMesh_e58tr")
+skeleton = NodePath("../../..")
+
+[node name="torch_anchor" type="Node3D" parent="Pivot/model"]
+
+[node name="torch" type="Node3D" parent="Pivot/model/torch_anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.346832, 0.077796, -0.297325)
+
+[node name="stick" type="MeshInstance3D" parent="Pivot/model/torch_anchor/torch"]
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_wypyw")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Pivot/model/torch_anchor/torch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.326866, 0)
+light_color = Color(1, 0.501961, 0, 1)
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="bulb" type="MeshInstance3D" parent="Pivot/model/torch_anchor/torch/OmniLight3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.138024, 0)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_qcbkq")
+skeleton = NodePath("../..")
+
+[node name="sword_anchor" type="Node3D" parent="Pivot"]
+
+[node name="AttackMoves" parent="Pivot/sword_anchor" instance=ExtResource("4_uyl4t")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Dash" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="SpecialAttack_CCTimer" type="Timer" parent="."]
+wait_time = 0.9
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ar37n")
+}
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+modulate = Color(0, 0.752941, 0, 1)
+offset_right = 176.0
+offset_bottom = 27.0
+scale = Vector2(1.59794, 1.64155)
+value = 100.0
+fill_mode = 1

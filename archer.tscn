@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=3 uid="uid://cf57n0hfetgs3"]
 
 [ext_resource type="Script" path="res://archer.gd" id="1_861fh"]
-[ext_resource type="Material" path="res://art/golem_material.tres" id="1_eis4b"]
+[ext_resource type="Material" uid="uid://dphiqobn4h8de" path="res://art/golem_material.tres" id="1_eis4b"]
 [ext_resource type="Script" path="res://enemies/HurtBoxBasic.gd" id="3_sigof"]
 [ext_resource type="PackedScene" uid="uid://d08kj8iudga7a" path="res://healthbar/healthbar_3d.tscn" id="4_72cm5"]
 

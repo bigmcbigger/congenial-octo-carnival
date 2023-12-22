@@ -12,8 +12,14 @@ const LAVA_DAMAGE_RATE = 0.5;
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var health = 100.0;
 
-@onready var attack_basic = $Pivot/AttackMoves
+@onready var attack_basic = $Pivot/sword_anchor/AttackMoves
 #@onready var attack_special = $Pivot/SpecialAttack
+
+@onready var left_leg_joint = $Pivot/model/left_leg_joint/Node3D
+@onready var right_leg_joint = $Pivot/model/right_leg_joint/Node3D
+@onready var model = $Pivot/model
+@onready var torch_anchor = $Pivot/model/torch_anchor
+@onready var sword_anchor = $Pivot/sword_anchor
 
 func _input(event):
 	if Input.is_action_just_pressed("attack"):  
@@ -24,6 +30,7 @@ func _input(event):
 
 var target_velocity = Vector3.ZERO
 
+var move_time = 0.0
 func _physics_process(delta):
 	update_health()
 	
@@ -52,15 +59,32 @@ func _physics_process(delta):
 	if not $SpecialAttack_CCTimer.is_stopped():
 		return
 	
+	left_leg_joint.set_identity()
+	right_leg_joint.set_identity()
+	model.set_identity()
+	sword_anchor.set_identity()
+	torch_anchor.set_identity()
 	if not $Dash.is_stopped():
 		target_velocity = direction * DASH_ACCELERATION
+		left_leg_joint.rotate_x(-PI/2)
+		right_leg_joint.rotate_x(-PI/2)
+		model.rotate_x(-0.6)
+		sword_anchor.translate(Vector3(0.0, 0.0, 0.5))
+		torch_anchor.translate(Vector3(0,0,0.5))
 	else:	
 		if Input.is_action_just_pressed("ui_select"):
 			$Dash.start(0.1)
+			move_time = 0.0
 		else:
 			# Ground Velocity
 			target_velocity.x = direction.x * SPEED
 			target_velocity.z = direction.z * SPEED
+		if direction != Vector3.ZERO:
+			move_time += delta
+			left_leg_joint.rotate_x(sin(move_time * 8.0) * PI/2)
+			right_leg_joint.rotate_x(-sin(move_time * 8.0) * PI/2)
+		else:
+			move_time = 0.0
 	
 
 	# Vertical Velocity
@@ -78,7 +102,7 @@ func update_health():
 	# Test for lava damage:
 	if $Dash.is_stopped():
 		var test_point = self.global_position
-		test_point.y -= 0.5;
+		test_point.y -= 1.0;
 		var space_state = get_world_3d().direct_space_state
 		var ground_query = PhysicsPointQueryParameters3D.new()
 		ground_query.set_position(test_point)

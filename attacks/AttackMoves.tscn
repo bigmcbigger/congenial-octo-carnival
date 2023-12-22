@@ -253,6 +253,7 @@ disabled = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.196625, 0.237519, -0.0722044, 0, 0.977883, 0.142212, 0.0737459, -0.633285, 0.192515, 0.590199, 0, -0.0975877)
+cast_shadow = 0
 mesh = SubResource("BoxMesh_vycrk")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
