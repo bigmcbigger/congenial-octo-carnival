@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://ci5buopmxr8wd"]
 
-[ext_resource type="PackedScene" uid="uid://dflnitqavpjn3" path="res://character.tscn" id="1_3vaen"]
 [ext_resource type="Texture2D" uid="uid://cpiwyaa6qa7ky" path="res://art/concrete_tiled.png" id="1_esayu"]
 [ext_resource type="Script" path="res://dungeon/dungeon.gd" id="1_taatf"]
+[ext_resource type="PackedScene" uid="uid://e1qj5kerko65" path="res://character_test.tscn" id="2_ga14b"]
 [ext_resource type="PackedScene" uid="uid://cf57n0hfetgs3" path="res://archer.tscn" id="4_dewp4"]
 [ext_resource type="PackedScene" uid="uid://bijrluamfmoij" path="res://environment/magma.tscn" id="5_b45qx"]
 
@@ -21,8 +21,8 @@ size = Vector2(100, 500)
 script = ExtResource("1_taatf")
 enemy_01 = ExtResource("4_dewp4")
 
-[node name="Player" parent="." instance=ExtResource("1_3vaen")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.72, -0.00355053, 233.415)
+[node name="Player" parent="." instance=ExtResource("2_ga14b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.0316, 0.702165, 235.139)
 
 [node name="Magma" parent="." instance=ExtResource("5_b45qx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.352, 0)
