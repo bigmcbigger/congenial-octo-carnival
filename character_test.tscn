@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://e1qj5kerko65"]
+[gd_scene load_steps=29 format=3 uid="uid://e1qj5kerko65"]
 
 [ext_resource type="Script" path="res://character.gd" id="1_ki2w3"]
 [ext_resource type="Script" path="res://Pivot.gd" id="2_2ynsf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dj21kocjswkp" path="res://art/counter_orange.png" id="3_q7cm3"]
 [ext_resource type="Texture2D" uid="uid://bot6tiwtae5k5" path="res://art/plush_red_bright.png" id="3_wwj72"]
 [ext_resource type="PackedScene" uid="uid://bw54jlqsrcn76" path="res://attacks/AttackMoves.tscn" id="4_uyl4t"]
+[ext_resource type="Material" uid="uid://dri258sctnop7" path="res://art/limb_material.tres" id="6_ulvx2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_asogy"]
 
@@ -56,14 +57,8 @@ radius = 0.405807
 _data = [Vector2(0, 0), 0.0, 8.87833, 0, 0, Vector2(0.17268, 0.652475), 0.0, 0.0, 0, 0, Vector2(0.425258, 0.382178), 0.0, 0.0, 0, 0, Vector2(1, 0.0346535), -0.864357, 0.0, 0, 0]
 point_count = 4
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ccqg"]
-albedo_color = Color(0.854902, 0.537255, 0, 1)
-metallic = 0.3
-metallic_specular = 1.0
-roughness = 0.0
-
 [sub_resource type="TubeTrailMesh" id="TubeTrailMesh_e58tr"]
-material = SubResource("StandardMaterial3D_7ccqg")
+material = ExtResource("6_ulvx2")
 radius = 0.3
 sections = 4
 section_length = 0.15
@@ -87,6 +82,17 @@ emission = Color(1, 0.501961, 0, 1)
 material = SubResource("StandardMaterial3D_lickh")
 radius = 0.05
 height = 0.1
+
+[sub_resource type="Curve" id="Curve_h7n56"]
+_data = [Vector2(0, 0), 0.0, 5.16693, 0, 0, Vector2(0.0489691, 0.330693), 0.0, 0.0, 0, 0, Vector2(0.298969, 0.549505), 0.304516, 0.304516, 0, 0, Vector2(0.809278, 0.993564), 0.0, 0.0, 0, 0, Vector2(1, 0.330693), -10.8205, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_slv2f"]
+material = ExtResource("6_ulvx2")
+radius = 0.08
+sections = 3
+section_length = 0.15
+curve = SubResource("Curve_h7n56")
 
 [sub_resource type="Animation" id="Animation_m6ss0"]
 length = 0.001
@@ -244,7 +250,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0014607, 0.193948, 0.000118
 cast_shadow = 0
 mesh = SubResource("SphereMesh_qcbkq")
 
+[node name="left_arm" type="MeshInstance3D" parent="Pivot/model"]
+transform = Transform3D(1, 0, 0, 0, 0.0220242, 0.999757, 0, -0.999757, 0.0220242, -0.281043, 0, -0.0908042)
+cast_shadow = 0
+mesh = SubResource("TubeTrailMesh_slv2f")
+
 [node name="sword_anchor" type="Node3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12948, 0.102779, 0)
 
 [node name="AttackMoves" parent="Pivot/sword_anchor" instance=ExtResource("4_uyl4t")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
