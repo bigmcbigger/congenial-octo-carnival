@@ -22,7 +22,7 @@ script = ExtResource("1_taatf")
 enemy_01 = ExtResource("4_dewp4")
 
 [node name="Player" parent="." instance=ExtResource("2_ga14b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.0316, 0.702165, 235.139)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9065, 0.5, 231.528)
 
 [node name="Magma" parent="." instance=ExtResource("5_b45qx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.352, 0)
@@ -68,5 +68,4 @@ navigation_mesh = SubResource("NavigationMesh_ghajr")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.606014, 0)
-visible = false
 mesh = SubResource("PlaneMesh_b61bq")

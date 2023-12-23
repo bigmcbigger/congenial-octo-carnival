@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://e1qj5kerko65"]
+[gd_scene load_steps=31 format=3 uid="uid://e1qj5kerko65"]
 
 [ext_resource type="Script" path="res://character.gd" id="1_ki2w3"]
 [ext_resource type="Script" path="res://Pivot.gd" id="2_2ynsf"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bot6tiwtae5k5" path="res://art/plush_red_bright.png" id="3_wwj72"]
 [ext_resource type="PackedScene" uid="uid://bw54jlqsrcn76" path="res://attacks/AttackMoves.tscn" id="4_uyl4t"]
 [ext_resource type="Material" uid="uid://dri258sctnop7" path="res://art/limb_material.tres" id="6_ulvx2"]
+[ext_resource type="Script" path="res://hithurtbox_class/HurtBox_Player.gd" id="8_2bmvc"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_asogy"]
 
@@ -107,6 +108,9 @@ _data = {
 "sword_swing": SubResource("Animation_qgmq4")
 }
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_f4ibo"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
 [node name="Character" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1_ki2w3")
@@ -158,25 +162,25 @@ ray_pickable = false
 pinned_points = [48, 42, 45, 47, 46, 44, 43]
 attachments/0/point_index = 48
 attachments/0/spatial_attachment_path = NodePath("../cape_pin_left1")
-attachments/0/offset = Vector3(0.000661179, 0.00265956, -0.00364679)
+attachments/0/offset = Vector3(0.000661001, 0.00265914, -0.00364725)
 attachments/1/point_index = 42
 attachments/1/spatial_attachment_path = NodePath("../cape_pin_rigth3")
-attachments/1/offset = Vector3(0.00342074, 0.00265962, -0.00364682)
+attachments/1/offset = Vector3(0.00342099, 0.00265926, -0.00364727)
 attachments/2/point_index = 45
 attachments/2/spatial_attachment_path = NodePath("../cape_pin_center")
-attachments/2/offset = Vector3(0.00206337, 0.00265962, -0.00364684)
+attachments/2/offset = Vector3(0.00206336, 0.00265926, -0.00364727)
 attachments/3/point_index = 47
 attachments/3/spatial_attachment_path = NodePath("../cape_pin_left2")
-attachments/3/offset = Vector3(0.00437395, 0.00265962, -0.00364684)
+attachments/3/offset = Vector3(0.00437434, 0.00265926, -0.00364727)
 attachments/4/point_index = 46
 attachments/4/spatial_attachment_path = NodePath("../cape_pin_left3")
-attachments/4/offset = Vector3(-0.00178126, 0.00265962, -0.00364684)
+attachments/4/offset = Vector3(-0.00178123, 0.00265926, -0.00364727)
 attachments/5/point_index = 44
 attachments/5/spatial_attachment_path = NodePath("../cape_pin_right1")
-attachments/5/offset = Vector3(-0.00257004, 0.00261766, -0.00319338)
+attachments/5/offset = Vector3(-0.00257006, 0.0026173, -0.00319386)
 attachments/6/point_index = 43
 attachments/6/spatial_attachment_path = NodePath("../cape_pin_right2")
-attachments/6/offset = Vector3(0.00247498, 0.00265962, -0.00364682)
+attachments/6/offset = Vector3(0.00247467, 0.00265926, -0.00364727)
 
 [node name="cape_pin_left1" type="Node3D" parent="Pivot/model/cape_transform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250661, 0.00322104, 0.0292623)
@@ -261,8 +265,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12948, 0.102779, 0)
 [node name="AttackMoves" parent="Pivot/sword_anchor" instance=ExtResource("4_uyl4t")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="Dash" type="Timer" parent="."]
+[node name="Dash_DurationTimer" type="Timer" parent="."]
 wait_time = 2.0
+one_shot = true
+
+[node name="Dash_CooldownTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="SpecialAttack_CCTimer" type="Timer" parent="."]
@@ -281,3 +288,12 @@ offset_bottom = 27.0
 scale = Vector2(1.59794, 1.64155)
 value = 100.0
 fill_mode = 1
+
+[node name="HurtBox_Player" type="Area3D" parent="."]
+script = ExtResource("8_2bmvc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox_Player"]
+transform = Transform3D(1.415, 0, 0, 0, 1.415, 0, 0, 0, 0.501457, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_f4ibo")
+
+[connection signal="area_entered" from="HurtBox_Player" to="HurtBox_Player" method="_on_area_entered"]
