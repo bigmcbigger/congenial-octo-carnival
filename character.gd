@@ -21,6 +21,8 @@ var health = 100.0;
 @onready var torch_anchor = $Pivot/model/torch_anchor
 @onready var sword_anchor = $Pivot/sword_anchor
 
+func _ready():
+	pass
 func _input(event):
 	if Input.is_action_just_pressed("attack"):  
 		attack_basic.get_node("AnimationPlayer").play("basic_attack")
@@ -65,12 +67,14 @@ func _physics_process(delta):
 	sword_anchor.set_identity()
 	torch_anchor.set_identity()
 	if not $Dash.is_stopped():
+		# TODO disable cape physics during dash, use alternate mesh for dash
+		# and reset to new softbody mesh when done dashing.
 		target_velocity = direction * DASH_ACCELERATION
 		left_leg_joint.rotate_x(-PI/2)
 		right_leg_joint.rotate_x(-PI/2)
 		model.rotate_x(-0.6)
-		sword_anchor.translate(Vector3(0.0, 0.0, 0.5))
-		torch_anchor.translate(Vector3(0,0,0.5))
+		#sword_anchor.translate(Vector3(0.0, 0.0, 0.5))
+		#torch_anchor.translate(Vector3(0,0,0.5))
 	else:	
 		if Input.is_action_just_pressed("ui_select"):
 			$Dash.start(0.1)
@@ -109,4 +113,6 @@ func update_health():
 		var result = space_state.intersect_point(ground_query)
 		if result.size() == 0:
 			health -= LAVA_DAMAGE_RATE;
-			
+	
+	if health <= 0.0:
+		get_tree().change_scene_to_file("res://menu.tscn")

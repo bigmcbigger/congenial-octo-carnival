@@ -27,10 +27,6 @@ radius = 0.186395
 [node name="Testplayer" type="CharacterBody3D"]
 script = ExtResource("1_lpemf")
 
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42673, 0)
-text = "Hades"
-
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.536608, 0.843832, 0, -0.843832, 0.536608, 0, 6.82969, 5.0012)
 current = true

@@ -90,7 +90,6 @@ func update_attack_state() -> ATTACK_STATE:
 				return ATTACK_STATE.ATTACK
 			pass
 		ATTACK_STATE.COOLDOWN:
-			# TODO animate the winddown by translating back to center
 			if attack_timer.is_stopped():
 				shoulder.set_identity()
 				left_arm_mesh.set_identity()
