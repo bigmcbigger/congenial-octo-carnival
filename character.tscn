@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dflnitqavpjn3"]
+[gd_scene load_steps=11 format=3 uid="uid://dflnitqavpjn3"]
 
 [ext_resource type="Script" path="res://character.gd" id="1_vj8ar"]
 [ext_resource type="Script" path="res://Pivot.gd" id="2_og4p0"]
 [ext_resource type="PackedScene" uid="uid://cr6hgbalj1c71" path="res://art/mob.glb" id="2_qs5fm"]
 [ext_resource type="PackedScene" uid="uid://bw54jlqsrcn76" path="res://attacks/AttackMoves.tscn" id="4_v7ke7"]
+[ext_resource type="Script" path="res://hithurtbox_class/HurtBox_Player.gd" id="5_wtotf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_asogy"]
 
@@ -19,6 +20,9 @@ _data = {
 "RESET": SubResource("Animation_m6ss0"),
 "sword_swing": SubResource("Animation_qgmq4")
 }
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_rsw3y"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
 
 [node name="Character" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -66,3 +70,14 @@ offset_bottom = 27.0
 scale = Vector2(1.59794, 1.64155)
 value = 100.0
 fill_mode = 1
+
+[node name="HurtBox_Player" type="Area3D" parent="."]
+script = ExtResource("5_wtotf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox_Player"]
+transform = Transform3D(1.415, 0, 0, 0, 1.415, 0, 0, 0, 0.501457, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_rsw3y")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="HurtBox_Player" to="HurtBox_Player" method="_on_area_entered"]

@@ -12,7 +12,9 @@ const LAVA_DAMAGE_RATE = 0.5;
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var health = 100.0;
 
+
 @onready var attack_basic = $Pivot/AttackMoves
+@onready var player_health = $HealthBar
 #@onready var attack_special = $Pivot/SpecialAttack
 
 func _input(event):
@@ -72,7 +74,6 @@ func _physics_process(delta):
 	move_and_slide()
 
 func update_health():
-	var player_health = $HealthBar
 	player_health.value = health
 	
 	# Test for lava damage:
@@ -86,3 +87,5 @@ func update_health():
 		if result.size() == 0:
 			health -= LAVA_DAMAGE_RATE;
 			
+func take_damage(amount):
+	health -= amount

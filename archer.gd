@@ -4,12 +4,12 @@ enum NAV_STATE {MOVING, ATTACKING, WAITING}
 enum ATTACK_STATE {READY, WINDUP, ATTACK, COOLDOWN}
 
 @export var ATTACK_CANCEL_RANGE: float = 3.0
-@export var ATTACK_BEGIN_RANGE: float = 2.0
+@export var ATTACK_BEGIN_RANGE: float = 1.5
 @export var MOVE_SPEED: float = 8.0
 @export var AGGRO_RANGE: float = 20.0
 @export var ATTACK_DURATION: float = 1.0;
 @export var WINDUP_DURATION: float = 0.2;
-@export var COOLDOWN_DURATION: float = 0.5;
+@export var COOLDOWN_DURATION: float = 2;
 @export var DESPAWN_TIMER_SECONDS: float = 5.0;
 
 var navmap_ready = false
@@ -17,10 +17,12 @@ var nav_state = NAV_STATE.WAITING
 var attack_state = ATTACK_STATE.READY
 var player = null
 var despawn_timer_started = false
+var damage_given = false
 
 @onready var navigation_agent = $navigation_point/NavigationAgent3D
 
 @onready var attack_timer = $attack_timer
+@onready var hitbox_timer = $hitbox_timer
 @onready var despawn_timer = $despawn
 
 @onready var left_arm_mesh = $shoulder/left_arm/MeshInstance3D
@@ -28,6 +30,7 @@ var despawn_timer_started = false
 @onready var left_emitter = $shoulder/left_arm/GPUParticles3D
 @onready var right_emitter = $shoulder/right_arm/GPUParticles3D
 @onready var shoulder = $shoulder
+@onready var hitbox = $HitBox_Enemy/CollisionShape3D
 
 # p in [0,1]
 # s in [0,1)
@@ -47,6 +50,7 @@ func _ready():
 	player = get_tree().current_scene.get_node("Player")
 	navigation_agent.target_desired_distance = ATTACK_BEGIN_RANGE;
 	navigation_agent.path_desired_distance = ATTACK_BEGIN_RANGE;
+	hitbox.set_disabled(true)
 	
 func spawn_at(start_position: Vector3):
 	position = start_position
@@ -61,20 +65,17 @@ func update_attack_state() -> ATTACK_STATE:
 		return ATTACK_STATE.READY
 	match attack_state:
 		ATTACK_STATE.READY:
+			# Reset the damage_given flag on READY state (i.e. ready for another attack)
+			damage_given = false
 			attack_timer.start(WINDUP_DURATION)
 			return ATTACK_STATE.WINDUP
 		ATTACK_STATE.WINDUP:
 			# TODO could implement attack cancellation during windup
 			# if the target moves out of range, transition
 			# to ready in that case.
-			if attack_timer.is_stopped():
-				attack_timer.start(ATTACK_DURATION)
-				left_emitter.set_emitting(true)
-				right_emitter.set_emitting(true)
-				left_emitter.set_amount_ratio(0)
-				right_emitter.set_amount_ratio(0)
-				return ATTACK_STATE.ATTACK
-			else:
+			
+			# I.e. If attack timer is still going
+			if not attack_timer.is_stopped():
 				var t = 1 - (attack_timer.time_left / WINDUP_DURATION)
 				left_arm_mesh.set_identity()
 				left_arm_mesh.translate(Vector3(1.0, 0.0, 0.0) * t)
@@ -83,15 +84,25 @@ func update_attack_state() -> ATTACK_STATE:
 				right_arm_mesh.translate(Vector3(-1.0, 0.0, 0.0) * t)
 				right_arm_mesh.rotate_z(t * -PI/2)
 				return ATTACK_STATE.WINDUP
+			else:
+				attack_timer.start(ATTACK_DURATION)
+				hitbox_timer.start(ATTACK_DURATION - 0.9)
+				left_emitter.set_emitting(true)
+				right_emitter.set_emitting(true)
+				left_emitter.set_amount_ratio(0)
+				right_emitter.set_amount_ratio(0)
+				return ATTACK_STATE.ATTACK
 			pass
 		ATTACK_STATE.ATTACK:
-			
-			if attack_timer.is_stopped():
-				attack_timer.start(COOLDOWN_DURATION)
-				left_emitter.set_emitting(false)
-				right_emitter.set_emitting(false)
-				return ATTACK_STATE.COOLDOWN
+			# 1. Play the animation EXACTLY ONCE if and only if the damage_given variable is false AND
+			# the hitbox timer is done.
+			if not damage_given and hitbox_timer.is_stopped():
+				hitbox.set_disabled(false)
+				damage_given = true
 			else:
+				hitbox.set_disabled(true)
+			
+			if not attack_timer.is_stopped():
 				shoulder.set_rotation
 				shoulder.set_identity()
 				var t = 1 - (attack_timer.time_left / ATTACK_DURATION)
@@ -99,15 +110,15 @@ func update_attack_state() -> ATTACK_STATE:
 				$shoulder/left_arm/GPUParticles3D.set_amount_ratio(der_sigmoid(t))
 				$shoulder/right_arm/GPUParticles3D.set_amount_ratio(der_sigmoid(t))
 				return ATTACK_STATE.ATTACK
+			else:	
+				attack_timer.start(COOLDOWN_DURATION)
+				left_emitter.set_emitting(false)
+				right_emitter.set_emitting(false)
+				return ATTACK_STATE.COOLDOWN
 			pass
 		ATTACK_STATE.COOLDOWN:
 			# TODO animate the winddown by translating back to center
-			if attack_timer.is_stopped():
-				shoulder.set_identity()
-				left_arm_mesh.set_identity()
-				right_arm_mesh.set_identity()
-				return ATTACK_STATE.READY
-			else:
+			if not attack_timer.is_stopped():
 				var t = (attack_timer.time_left / COOLDOWN_DURATION)
 				left_arm_mesh.set_identity()
 				left_arm_mesh.translate(Vector3(1.0, 0.0, 0.0) * t)
@@ -116,6 +127,11 @@ func update_attack_state() -> ATTACK_STATE:
 				right_arm_mesh.translate(Vector3(-1.0, 0.0, 0.0) * t)
 				right_arm_mesh.rotate_z(t * -PI/2)
 				return ATTACK_STATE.COOLDOWN
+			else:
+				shoulder.set_identity()
+				left_arm_mesh.set_identity()
+				right_arm_mesh.set_identity()
+				return ATTACK_STATE.READY
 	return ATTACK_STATE.READY
 
 func update_navigation_state() -> NAV_STATE:
@@ -155,14 +171,14 @@ func update_navigation_state() -> NAV_STATE:
 	
 	
 func _process(delta):
-	nav_state = update_navigation_state()
+	pass
 	# TODO could bring update_attack_state() to this level
 	# to allow cooldown animation to be updated outside of the attack
 	# navigation state.
 	# Also this allows for winding up while moving to the player.
 
 func _physics_process(delta):
-	
+	nav_state = update_navigation_state()
 	if health <= 0 and not despawn_timer_started:
 		despawn_timer.start(DESPAWN_TIMER_SECONDS)
 		despawn_timer_started = true

@@ -1,14 +1,12 @@
 class_name HurtBox_Player
 extends Area3D
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	collision_layer = 0
-	collision_mask = 2
+	collision_mask = 3
 
-
-func _on_area_entered(hitbox: HitBoxBasic):
+func _on_area_entered(hitbox: HitBox_Enemy):
+	print("area entered")
 	if hitbox == null:
 		return
 		
