@@ -50,8 +50,11 @@ transform = Transform3D(-0.208873, -2.48833e-08, 7.0234e-16, 0, -1.24417e-08, -0
 [node name="AttackMoves" parent="Pivot" instance=ExtResource("4_v7ke7")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="Dash" type="Timer" parent="."]
+[node name="Dash_DurationTimer" type="Timer" parent="."]
 wait_time = 2.0
+one_shot = true
+
+[node name="Dash_CooldownTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="SpecialAttack_CCTimer" type="Timer" parent="."]
@@ -77,7 +80,5 @@ script = ExtResource("5_wtotf")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox_Player"]
 transform = Transform3D(1.415, 0, 0, 0, 1.415, 0, 0, 0, 0.501457, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_rsw3y")
-
-[node name="Timer" type="Timer" parent="."]
 
 [connection signal="area_entered" from="HurtBox_Player" to="HurtBox_Player" method="_on_area_entered"]

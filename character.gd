@@ -6,6 +6,7 @@ const JUMP_VELOCITY = 4.5
 const FALL_ACCELERATION = 75
 const DASH_ACCELERATION = 40
 const LAVA_DAMAGE_RATE = 0.5;
+const DASH_COOLDOWN_TIME_SECONDS = 0.5
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -15,6 +16,8 @@ var health = 100.0;
 
 @onready var attack_basic = $Pivot/AttackMoves
 @onready var player_health = $HealthBar
+@onready var dash_duration_timer = $Dash_DurationTimer
+@onready var dash_cooldown_timer = $Dash_CooldownTimer
 #@onready var attack_special = $Pivot/SpecialAttack
 
 func _input(event):
@@ -54,11 +57,12 @@ func _physics_process(delta):
 	if not $SpecialAttack_CCTimer.is_stopped():
 		return
 	
-	if not $Dash.is_stopped():
+	if not dash_duration_timer.is_stopped():
 		target_velocity = direction * DASH_ACCELERATION
 	else:	
-		if Input.is_action_just_pressed("ui_select"):
-			$Dash.start(0.1)
+		if Input.is_action_just_pressed("ui_select") and dash_cooldown_timer.is_stopped():
+			dash_duration_timer.start(0.1)
+			dash_cooldown_timer.start(DASH_COOLDOWN_TIME_SECONDS)
 		else:
 			# Ground Velocity
 			target_velocity.x = direction.x * SPEED
@@ -77,7 +81,7 @@ func update_health():
 	player_health.value = health
 	
 	# Test for lava damage:
-	if $Dash.is_stopped():
+	if dash_duration_timer.is_stopped():
 		var test_point = self.global_position
 		test_point.y -= 0.5;
 		var space_state = get_world_3d().direct_space_state
