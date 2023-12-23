@@ -26,3 +26,11 @@ overflow:
 - powerups
 - replay rogiuelike features
 - more levles
+
+Polish items
+- SFX
+- indicator shaders
+- dash FX 
+- flame effect on torch
+- flame effect on character body when they are above lava
+- hit reactions?!
