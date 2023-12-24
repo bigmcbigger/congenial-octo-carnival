@@ -284,12 +284,15 @@ libraries = {
 }
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-modulate = Color(0, 0.752941, 0, 1)
-offset_right = 176.0
-offset_bottom = 27.0
+modulate = Color(1, 0, 0.0156863, 1)
+offset_left = 845.0
+offset_top = 600.0
+offset_right = 1021.0
+offset_bottom = 609.0
 scale = Vector2(1.59794, 1.64155)
 value = 100.0
 fill_mode = 1
+show_percentage = false
 
 [node name="HurtBox_Player" type="Area3D" parent="."]
 script = ExtResource("5_wtotf")

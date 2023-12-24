@@ -14,7 +14,6 @@ const KNOCKBACK_ACCELERATION = 30
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var health = 100.0;
-var damage_taken = false;
 
 @onready var attack_basic = $Pivot/sword_anchor/AttackMoves
 @onready var player_health = $HealthBar
@@ -129,7 +128,6 @@ func update_health():
 			
 func take_damage(amount):
 	health -= amount
-	damage_taken = true
 	knockback_duration_timer.start(KNOCKBACK_DURATION_TIME_SECONDS)
 	
 	if health <= 0.0:
