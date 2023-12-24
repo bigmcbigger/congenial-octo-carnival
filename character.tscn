@@ -274,6 +274,10 @@ one_shot = true
 wait_time = 0.9
 one_shot = true
 
+[node name="Knockback_DurationTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_ar37n")

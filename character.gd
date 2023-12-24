@@ -7,16 +7,20 @@ const FALL_ACCELERATION = 75
 const DASH_ACCELERATION = 40
 const LAVA_DAMAGE_RATE = 0.5;
 const DASH_COOLDOWN_TIME_SECONDS = 0.5
+const KNOCKBACK_DURATION_TIME_SECONDS = 0.05
+const KNOCKBACK_ACCELERATION = 30
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var health = 100.0;
+var damage_taken = false;
 
 @onready var attack_basic = $Pivot/sword_anchor/AttackMoves
 @onready var player_health = $HealthBar
 @onready var dash_duration_timer = $Dash_DurationTimer
 @onready var dash_cooldown_timer = $Dash_CooldownTimer
+@onready var knockback_duration_timer = $Knockback_DurationTimer
 #@onready var attack_special = $Pivot/SpecialAttack
 
 @onready var left_leg_joint = $Pivot/model/left_leg_joint/Node3D
@@ -61,6 +65,7 @@ func _physics_process(delta):
 		
 	var direction_facing = $Pivot.transform.basis.z
 	
+
 	
 	if not $SpecialAttack_CCTimer.is_stopped():
 		return
@@ -80,6 +85,9 @@ func _physics_process(delta):
 		model.rotate_x(-0.6)
 		#sword_anchor.translate(Vector3(0.0, 0.0, 0.5))
 		#torch_anchor.translate(Vector3(0,0,0.5))
+	elif not knockback_duration_timer.is_stopped():
+		target_velocity = direction_facing * KNOCKBACK_ACCELERATION
+		print(target_velocity)
 	else:	
 		if Input.is_action_just_pressed("ui_select") and dash_cooldown_timer.is_stopped():
 			dash_duration_timer.start(0.1)
@@ -121,5 +129,8 @@ func update_health():
 			
 func take_damage(amount):
 	health -= amount
+	damage_taken = true
+	knockback_duration_timer.start(KNOCKBACK_DURATION_TIME_SECONDS)
+	
 	if health <= 0.0:
 		get_tree().change_scene_to_file("res://menu.tscn")
