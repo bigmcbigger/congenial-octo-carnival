@@ -11,41 +11,41 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_asogy"]
 
-[sub_resource type="Curve" id="Curve_kygpr"]
+[sub_resource type="Curve" id="Curve_spp4q"]
 _data = [Vector2(0.0592784, 0), 0.0, 18.1707, 0, 0, Vector2(0.103093, 0.362871), 0.0, 0.0, 0, 0, Vector2(1, 0.343564), -2.59691, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lqv0x"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sd7ha"]
 albedo_color = Color(0.47451, 0.372549, 0.32549, 1)
 albedo_texture = ExtResource("3_q7cm3")
 
 [sub_resource type="TubeTrailMesh" id="TubeTrailMesh_sghvo"]
-material = SubResource("StandardMaterial3D_lqv0x")
+material = SubResource("StandardMaterial3D_sd7ha")
 radial_steps = 16
 sections = 4
-curve = SubResource("Curve_kygpr")
+curve = SubResource("Curve_spp4q")
 
-[sub_resource type="Curve" id="Curve_aeply"]
+[sub_resource type="Curve" id="Curve_wmlpp"]
 _data = [Vector2(0.00773196, 0.20198), 0.0, 0.0, 0, 0, Vector2(1, 0.948515), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_by6jn"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ngke"]
 albedo_texture = ExtResource("3_wwj72")
 metallic_specular = 0.0
 uv1_scale = Vector3(1.225, 1.225, 1.225)
 
 [sub_resource type="TubeTrailMesh" id="TubeTrailMesh_inxlh"]
-material = SubResource("StandardMaterial3D_by6jn")
+material = SubResource("StandardMaterial3D_3ngke")
 radius = 0.3
 sections = 2
 section_length = 0.1
-curve = SubResource("Curve_aeply")
+curve = SubResource("Curve_wmlpp")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pfs8e"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_233au"]
 albedo_texture = ExtResource("3_ebjwa")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_kupng"]
-material = SubResource("StandardMaterial3D_pfs8e")
+material = SubResource("StandardMaterial3D_233au")
 size = Vector2(0.5, 0.8)
 subdivide_width = 5
 subdivide_depth = 5
@@ -54,7 +54,7 @@ orientation = 2
 [sub_resource type="SphereShape3D" id="SphereShape3D_47i03"]
 radius = 0.405807
 
-[sub_resource type="Curve" id="Curve_25p5g"]
+[sub_resource type="Curve" id="Curve_7awrl"]
 _data = [Vector2(0, 0), 0.0, 8.87833, 0, 0, Vector2(0.17268, 0.652475), 0.0, 0.0, 0, 0, Vector2(0.425258, 0.382178), 0.0, 0.0, 0, 0, Vector2(1, 0.0346535), -0.864357, 0.0, 0, 0]
 point_count = 4
 
@@ -63,28 +63,28 @@ material = ExtResource("6_ulvx2")
 radius = 0.3
 sections = 4
 section_length = 0.15
-curve = SubResource("Curve_25p5g")
+curve = SubResource("Curve_7awrl")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7a6bc"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78tf5"]
 albedo_color = Color(0.156863, 0.14902, 0.431373, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_wypyw"]
-material = SubResource("StandardMaterial3D_7a6bc")
+material = SubResource("StandardMaterial3D_78tf5")
 top_radius = 0.05
 bottom_radius = 0.02
 height = 0.3
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lickh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_58s8v"]
 albedo_color = Color(1, 0.501961, 0, 1)
 emission_enabled = true
 emission = Color(1, 0.501961, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_qcbkq"]
-material = SubResource("StandardMaterial3D_lickh")
+material = SubResource("StandardMaterial3D_58s8v")
 radius = 0.05
 height = 0.1
 
-[sub_resource type="Curve" id="Curve_h7n56"]
+[sub_resource type="Curve" id="Curve_b7ojl"]
 _data = [Vector2(0, 0), 0.0, 5.16693, 0, 0, Vector2(0.0489691, 0.330693), 0.0, 0.0, 0, 0, Vector2(0.298969, 0.549505), 0.304516, 0.304516, 0, 0, Vector2(0.809278, 0.993564), 0.0, 0.0, 0, 0, Vector2(1, 0.330693), -10.8205, 0.0, 0, 0]
 point_count = 5
 
@@ -93,7 +93,7 @@ material = ExtResource("6_ulvx2")
 radius = 0.08
 sections = 3
 section_length = 0.15
-curve = SubResource("Curve_h7n56")
+curve = SubResource("Curve_b7ojl")
 
 [sub_resource type="Animation" id="Animation_m6ss0"]
 length = 0.001

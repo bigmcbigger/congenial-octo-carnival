@@ -10,11 +10,11 @@ points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 
 
 [node name="DungeonTest" type="Node3D"]
 
+[node name="Player" parent="." instance=ExtResource("2_8rosb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2.62907)
+
 [node name="Archer" parent="." instance=ExtResource("1_oqvoi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66046, 0)
-
-[node name="Player" parent="." instance=ExtResource("2_8rosb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 3.51779)
 
 [node name="Node3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.174228, 0)

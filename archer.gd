@@ -31,6 +31,7 @@ var damage_given = false
 @onready var right_emitter = $shoulder/right_arm/GPUParticles3D
 @onready var shoulder = $shoulder
 @onready var hitbox = $HitBox_Enemy/CollisionShape3D
+@onready var hitbox_indicator = $AnimationPlayer
 
 # p in [0,1]
 # s in [0,1)
@@ -73,6 +74,7 @@ func update_attack_state() -> ATTACK_STATE:
 			# TODO could implement attack cancellation during windup
 			# if the target moves out of range, transition
 			# to ready in that case.
+			hitbox_indicator.play("indicator")
 			
 			# I.e. If attack timer is still going
 			if not attack_timer.is_stopped():
@@ -86,7 +88,7 @@ func update_attack_state() -> ATTACK_STATE:
 				return ATTACK_STATE.WINDUP
 			else:
 				attack_timer.start(ATTACK_DURATION)
-				hitbox_timer.start(ATTACK_DURATION - 0.9)
+				hitbox_timer.start(ATTACK_DURATION - 0.5)
 				left_emitter.set_emitting(true)
 				right_emitter.set_emitting(true)
 				left_emitter.set_amount_ratio(0)

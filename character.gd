@@ -109,15 +109,15 @@ func update_health():
 	player_health.value = health
 	
 	# Test for lava damage:
-	if dash_duration_timer.is_stopped():
-		var test_point = self.global_position
-		test_point.y -= 1.0;
-		var space_state = get_world_3d().direct_space_state
-		var ground_query = PhysicsPointQueryParameters3D.new()
-		ground_query.set_position(test_point)
-		var result = space_state.intersect_point(ground_query)
-		if result.size() == 0:
-			health -= LAVA_DAMAGE_RATE;
+	#if dash_duration_timer.is_stopped():
+		#var test_point = self.global_position
+		#test_point.y -= 1.0;
+		#var space_state = get_world_3d().direct_space_state
+		#var ground_query = PhysicsPointQueryParameters3D.new()
+		#ground_query.set_position(test_point)
+		#var result = space_state.intersect_point(ground_query)
+		#if result.size() == 0:
+			#health -= LAVA_DAMAGE_RATE;
 			
 func take_damage(amount):
 	health -= amount
