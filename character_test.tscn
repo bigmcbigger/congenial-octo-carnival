@@ -296,4 +296,8 @@ script = ExtResource("8_2bmvc")
 transform = Transform3D(1.415, 0, 0, 0, 1.415, 0, 0, 0, 0.501457, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_f4ibo")
 
+[node name="Knockback_DurationTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [connection signal="area_entered" from="HurtBox_Player" to="HurtBox_Player" method="_on_area_entered"]

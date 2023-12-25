@@ -14,6 +14,7 @@ const KNOCKBACK_ACCELERATION = 30
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var health = 100.0;
+var damage_location = null;
 
 @onready var attack_basic = $Pivot/sword_anchor/AttackMoves
 @onready var player_health = $HealthBar
@@ -63,9 +64,7 @@ func _physics_process(delta):
 		$Pivot.look_at(position + direction, Vector3.UP)
 		
 	var direction_facing = $Pivot.transform.basis.z
-	
 
-	
 	if not $SpecialAttack_CCTimer.is_stopped():
 		return
 
@@ -85,8 +84,9 @@ func _physics_process(delta):
 		#sword_anchor.translate(Vector3(0.0, 0.0, 0.5))
 		#torch_anchor.translate(Vector3(0,0,0.5))
 	elif not knockback_duration_timer.is_stopped():
-		target_velocity = direction_facing * KNOCKBACK_ACCELERATION
-		print(target_velocity)
+		if damage_location:
+			target_velocity = damage_location * KNOCKBACK_ACCELERATION
+			print("damage_location true")
 	else:	
 		if Input.is_action_just_pressed("ui_select") and dash_cooldown_timer.is_stopped():
 			dash_duration_timer.start(0.1)
@@ -126,7 +126,9 @@ func update_health():
 		#if result.size() == 0:
 			#health -= LAVA_DAMAGE_RATE;
 			
-func take_damage(amount):
+func take_damage(amount, from_global_position):
+	damage_location = (self.global_position - from_global_position).normalized()
+	print(damage_location)
 	health -= amount
 	knockback_duration_timer.start(KNOCKBACK_DURATION_TIME_SECONDS)
 	

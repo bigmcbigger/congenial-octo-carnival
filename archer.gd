@@ -18,6 +18,7 @@ var attack_state = ATTACK_STATE.READY
 var player = null
 var despawn_timer_started = false
 var damage_given = false
+var ranged_attack = false
 
 @onready var navigation_agent = $navigation_point/NavigationAgent3D
 
@@ -31,7 +32,7 @@ var damage_given = false
 @onready var right_emitter = $shoulder/right_arm/GPUParticles3D
 @onready var shoulder = $shoulder
 @onready var hitbox = $HitBox_Enemy/CollisionShape3D
-@onready var hitbox_indicator = $AnimationPlayer
+@onready var animation_player = $AnimationPlayer
 
 # p in [0,1]
 # s in [0,1)
@@ -68,13 +69,27 @@ func update_attack_state() -> ATTACK_STATE:
 		ATTACK_STATE.READY:
 			# Reset the damage_given flag on READY state (i.e. ready for another attack)
 			damage_given = false
-			attack_timer.start(WINDUP_DURATION)
+			if ranged_attack:
+				attack_timer.start(WINDUP_DURATION + 0.8)
+			else:
+				attack_timer.start(WINDUP_DURATION)
 			return ATTACK_STATE.WINDUP
 		ATTACK_STATE.WINDUP:
+			
+			# ------------------ RANGED ATTACK ------------------
+			if ranged_attack:
+				if not attack_timer.is_stopped():
+					animation_player.play("ranged_attack_windup")
+					return ATTACK_STATE.WINDUP
+				else:
+					attack_timer.start(ATTACK_DURATION)
+					return ATTACK_STATE.ATTACK			
+			# ---------------  RANGED ATTACK (END) --------------
+			
 			# TODO could implement attack cancellation during windup
 			# if the target moves out of range, transition
 			# to ready in that case.
-			hitbox_indicator.play("indicator")
+			animation_player.play("melee_attack_indicator")
 			
 			# I.e. If attack timer is still going
 			if not attack_timer.is_stopped():
@@ -96,6 +111,17 @@ func update_attack_state() -> ATTACK_STATE:
 				return ATTACK_STATE.ATTACK
 			pass
 		ATTACK_STATE.ATTACK:
+			
+			# ------------------ RANGED ATTACK ------------------
+			if ranged_attack:
+				if not attack_timer.is_stopped():
+					animation_player.play("ranged_attack_attacking")
+					return ATTACK_STATE.ATTACK
+				else:
+					attack_timer.start(COOLDOWN_DURATION)
+					return ATTACK_STATE.COOLDOWN			
+			# ---------------  RANGED ATTACK (END) --------------
+			
 			# 1. Play the animation EXACTLY ONCE if and only if the damage_given variable is false AND
 			# the hitbox timer is done.
 			if not damage_given and hitbox_timer.is_stopped():
@@ -119,6 +145,17 @@ func update_attack_state() -> ATTACK_STATE:
 				return ATTACK_STATE.COOLDOWN
 			pass
 		ATTACK_STATE.COOLDOWN:
+			
+			# ------------------ RANGED ATTACK ------------------
+			if ranged_attack:
+				if not attack_timer.is_stopped():
+					animation_player.play("ranged_attack_cooldown")
+					return ATTACK_STATE.COOLDOWN
+				else:
+					attack_timer.start(COOLDOWN_DURATION)
+					return ATTACK_STATE.READY			
+			# ---------------  RANGED ATTACK (END) --------------
+			
 			# TODO animate the winddown by translating back to center
 			if not attack_timer.is_stopped():
 				var t = (attack_timer.time_left / COOLDOWN_DURATION)

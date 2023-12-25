@@ -3,6 +3,7 @@ extends Area3D
 
 @export var damage = 10
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	collision_layer = 3

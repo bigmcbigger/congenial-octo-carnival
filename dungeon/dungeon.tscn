@@ -22,7 +22,7 @@ script = ExtResource("1_taatf")
 enemy_01 = ExtResource("4_dewp4")
 
 [node name="Player" parent="." instance=ExtResource("2_ga14b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9065, 0.5, 231.528)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.8553, 0.5, 229.524)
 
 [node name="Magma" parent="." instance=ExtResource("5_b45qx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.352, 0)
